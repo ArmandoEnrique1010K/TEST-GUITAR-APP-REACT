@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getGuitar } from "../services/getGuitar"
 import AudioPlayerView from "./AudioPlayerView";
-
+import { groupByX } from "../services/groupByX";
 // Estado inicial para las notas
 const guitarInitial = [
     {
@@ -19,10 +19,12 @@ export default function GuitarView() {
 
     // Estado para la guitarra
     const [guitar, setGuitar] = useState(guitarInitial);
-    // const [currentNote, setCurrentNote] = useState(null);
     const [currentNote, setCurrentNote] = useState({});
-
     const [isMuted, setIsMuted] = useState(false);
+
+    // Referencia al audio actualmente reproduciéndose
+    const currentAudioRef = useRef(null);
+
 
     const toggleMute = () => {
         setIsMuted(!isMuted);
@@ -34,27 +36,25 @@ export default function GuitarView() {
         setGuitar(getGuitar());
     }, [])
 
-    const handleNotePlayed = (note) => {
-        // Aquí puedes realizar cualquier acción adicional con la nota reproducida
-        console.log("Nota reproducida:", note);
-        setCurrentNote(note)
-    };
+    const handleNotePlayed = (note, audioRef) => {
+        if (currentNote) {
+            if (currentNote.y === note.y && currentNote.x !== note.x && currentAudioRef.current) {
+                // Si la nota anterior está en el mismo eje x pero diferente eje y, pausar el audio
+                currentAudioRef.current.pause();
+                currentAudioRef.current.currentTime = 0;
+            } else if (currentNote.x === note.x && currentNote.y === note.y) {
+                // Si la misma nota se está reproduciendo, reiniciarla
+                currentAudioRef.current.currentTime = 0;
+                currentAudioRef.current.play();
+                return; // No es necesario continuar
+            }
+        }
 
-    // const pauseAudio = () => {
-    //     audioRef.current.pause();
-    // };
+        setCurrentNote(note)
+        currentAudioRef.current = audioRef.current;
+    };
 
     // Función para agrupar notas por el valor de x
-    const groupByX = () => {
-        return guitar.reduce((groups, note) => {
-            const x = note.position.x;
-            if (!groups[x]) {
-                groups[x] = [];
-            }
-            groups[x].push(note);
-            return groups;
-        }, {});
-    };
     const groupedNotes = groupByX();
 
     return (
@@ -72,35 +72,16 @@ export default function GuitarView() {
                                 y={note.position.y}
                                 onNotePlayed={handleNotePlayed}
                                 isMuted={isMuted}
-                            >
-                            </AudioPlayerView>
+                            />
                         </div>
                     ))}
                 </div>
             ))}
 
-
-            {/* <div>
-                {guitar.map((note) => (
-                    <div key={note.id}>
-                        {note.position.x} - {note.position.y}
-                        <AudioPlayerView
-                            x={note.position.x}
-                            y={note.position.y}
-                            onNotePlayed={handleNotePlayed}
-                            isMuted={isMuted}
-                        />
-                    </div>
-                ))}
-            </div> */}
-            <button onClick={toggleMute}>
+            <button onMouseDown={toggleMute} onMouseUp={toggleMute}>
                 SILENCIO
             </button>
-            {
-            // NO SIRVE ESTO
-            /* <div>
-                Reproduciendo la nota con el ID:
-            </div> */}
+
             {currentNote && (
                 <div>
                     Reproduciendo la nota: {currentNote.x}-{currentNote.y}

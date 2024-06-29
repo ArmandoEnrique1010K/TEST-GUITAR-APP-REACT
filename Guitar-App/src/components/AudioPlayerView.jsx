@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import PropTypes from 'prop-types';
+import "../styles/AudioPlayerStyles.css";
 
 const AudioPlayerView = ({ x, y, onNotePlayed, isMuted }) => {
 
-    // Estado para la nota actual
-    // const [currentNote, setCurrentNote] = useState({ x: 99, y: 99 });
-
+    // CONSTANTE GLOBAL??
     const audioRef = useRef(null);
 
     // SILENCIAR TODO
@@ -21,25 +20,18 @@ const AudioPlayerView = ({ x, y, onNotePlayed, isMuted }) => {
     const playAudio = () => {
         const audioPath = `/sounds/guitar1/${x}-${y}.mp3`;
         audioRef.current.src = audioPath;
+
+        // SI LA NOTA QUE SE VA A REPRODUCIR A CONTINUACION SE ENCUENTRA EN EL MISMO EJE X, ENTONCES DEBE SILENCIAR LA NOTA ANTERIOR (ES LOGICO EN UNA GUITARRA)
         audioRef.current.play();
         console.log(audioPath)
-
-        // setCurrentNote({ x, y })
-        // Llamar a la función de devolución de llamada
-        onNotePlayed({ x, y });
-        // handlerCurrentNote(x, y);
-
+        onNotePlayed({ x, y }, audioRef);
     };
 
-    // // LA NOTA ACTUAL
-    // const handlerCurrentNote = () => {
-    //     console.log("NOTA: " + currentNote);
-    // }
 
     return (
         <div>
             <audio ref={audioRef} />
-            <button onClick={playAudio}>
+            <button className="button" onClick={playAudio}>
                 Reproducir
             </button>
         </div>
@@ -48,9 +40,9 @@ const AudioPlayerView = ({ x, y, onNotePlayed, isMuted }) => {
 
 export default AudioPlayerView;
 
-/*
-AudioPlayer.propTypes = {
-    x: PropTypes.integer,
-    y: PropTypes.integer,
-    currentNote: PropTypes.integer,
-}*/
+AudioPlayerView.propTypes = {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    onNotePlayed: PropTypes.func.isRequired,
+    isMuted: PropTypes.bool.isRequired,
+};
