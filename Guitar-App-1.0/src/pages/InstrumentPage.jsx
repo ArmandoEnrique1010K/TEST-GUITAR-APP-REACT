@@ -37,9 +37,20 @@ export const InstrumentPage = () => {
             currentAudioRef.current.currentTime = 0;
         }
         if (currentNote.row === note.row && currentNote.chord === note.chord) {
-            console.log("HA TOCADO LA MISMA NOTA")
             currentAudioRef.current.currentTime = 0;
-            currentAudioRef.current.play();
+            currentAudioRef.current.play()
+
+            // let audioPromise = currentAudioRef.current.play();
+
+            // currentAudioRef.current.currentTime = 0;
+            // if (audioPromise !== undefined) {
+            //     audioPromise.then(() => {
+            //         currentAudioRef.current.pause()
+            //         console.log("HA TOCADO LA MISMA NOTA")
+            //     }).catch(error => {
+            //         console.log(error);
+            //     })
+            // }
             return;
         }
 
@@ -61,3 +72,5 @@ export const InstrumentPage = () => {
 
     </>)
 }
+
+// https://developer.chrome.com/blog/play-request-was-interrupted?hl=es-419
