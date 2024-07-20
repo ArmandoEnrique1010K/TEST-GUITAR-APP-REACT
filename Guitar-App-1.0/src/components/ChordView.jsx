@@ -14,6 +14,8 @@ export const ChordView = ({ row, handleNotePlayed, id, name, chord }) => {
         }
     }, [audioPath]);
 
+    // CHATGPT AYUDAME CON ESTE PROBLEMA DEL ERROR:
+
     const playSound = () => {
         if (audioRef.current.readyState >= 2) {
             // El audio ya está cargado, reproducir directamente
@@ -35,6 +37,8 @@ export const ChordView = ({ row, handleNotePlayed, id, name, chord }) => {
     };
 
     const fetchAudioAndPlay = () => {
+        // https://developer.chrome.com/blog/play-request-was-interrupted?hl=es-419
+
         fetch(audioPath)
             .then(response => response.blob())
             .then(blob => {
