@@ -4,13 +4,13 @@ export const RopesView = ({ handleNotePlayed, id, row, frets = [] }) => {
     return (<>
         <div>
             {
-                frets.map(f => (
-                    <div key={f.id}>
+                frets.map(({ id, name, chord }) => (
+                    <div key={id}>
                         <ChordView
-                            row={f.row}
-                            id={f.id}
-                            name={f.name}
-                            chord={f.chord}
+                            row={row}
+                            id={id}
+                            name={name}
+                            chord={chord}
                             handleNotePlayed={handleNotePlayed}
                         />
                     </div>

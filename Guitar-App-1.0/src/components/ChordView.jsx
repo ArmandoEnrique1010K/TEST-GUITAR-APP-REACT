@@ -2,9 +2,7 @@ import { useEffect, useRef } from "react";
 
 export const ChordView = ({ row, handleNotePlayed, id, name, chord }) => {
 
-
     // Referenciar al elemento audio
-
     const audioRef = useRef(null);
 
     // Función para reproducir sonido
@@ -14,7 +12,8 @@ export const ChordView = ({ row, handleNotePlayed, id, name, chord }) => {
         audioRef.current.src = audioPath;
         // Reproducir audio
         audioRef.current.play();
-        console.log(name);
+        console.log(name + " " + row + " " + chord);
+
         handleNotePlayed({ row, chord }, audioRef)
     }
 
