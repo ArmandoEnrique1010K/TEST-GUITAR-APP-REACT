@@ -15,6 +15,7 @@ export const ChordView = ({ row, handleNotePlayed, id, name, chord }) => {
     }, [audioPath]);
 
     // CHATGPT AYUDAME CON ESTE PROBLEMA DEL ERROR:
+    // https://www.w3schools.com/tags/av_prop_readystate.asp
 
     const playSound = () => {
         if (audioRef.current.readyState >= 2) {
