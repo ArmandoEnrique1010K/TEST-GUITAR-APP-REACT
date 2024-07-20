@@ -38,6 +38,7 @@ export const InstrumentPage = () => {
             currentAudioRef.current.pause();
             currentAudioRef.current.currentTime = 0;
         }
+        // SI TOCA LA MISMA NOTA O ACORDE, ENTONCES SE SILENCIARA EL SONIDO ANTERIOR Y SE REPRODUCIRA DE NUEVO
         if (currentNote.id === note.id && currentNote.chord === note.chord) {
             currentAudioRef.current.currentTime = 0;
             currentAudioRef.current.play()
