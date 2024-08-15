@@ -7,15 +7,15 @@ export const InstrumentPage = () => {
     const [ropes, setRopes] = useState([]);
 
     // Desestructurar el objeto ropes
-    const { id, frets } = ropes;
+    // const { rope, frets } = ropes;
 
     // const { id: idchord, chord, name } = frets;
     // Estado para la nota actual reproduciendose
     const [currentNote, setCurrentNote] = useState({
-        // ROW O FILA
-        id: -1,
-        // ACORDE O N
-        chord: -1,
+        // CUERDA O FILA
+        rope: null,
+        // ACORDE O NOTA
+        chord: null,
     });
 
 
@@ -34,11 +34,11 @@ export const InstrumentPage = () => {
 
     const handleNotePlayed = (note, audioRef) => {
         // SI LA SIGUIENTE NOTA ESTA EN LA MISMA FILA, ENTONCES SE SILENCIARA LA NOTA DE LA MISMA FILA
-        if (currentNote.id === note.id && currentAudioRef.current) {
+        if (currentNote.rope === note.rope && currentAudioRef.current) {
             currentAudioRef.current.pause();
             currentAudioRef.current.currentTime = 0;
         }
-        if (currentNote.id === note.id && currentNote.chord === note.chord) {
+        if (currentNote.rope === note.rope && currentNote.chord === note.chord) {
             currentAudioRef.current.currentTime = 0;
             currentAudioRef.current.play()
 
@@ -61,10 +61,13 @@ export const InstrumentPage = () => {
         setCurrentNote(note);
         currentAudioRef.current = audioRef.current;
         // NOTA ANTERIOR
-        console.log(currentNote.id);
-        console.log(currentNote.chord);
+        console.log(`La cuerda anterior fue: ${currentNote.rope}`);
+        console.log(`La nota anterior fue: ${currentNote.chord}`);
         // NOTA ACTUAL
-        console.log(note);
+
+        console.log(`La cuerda actual es: ${note.rope}`);
+        console.log(`La nota actual es: ${note.chord}`);
+
 
     }
 

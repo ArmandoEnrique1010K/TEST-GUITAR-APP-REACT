@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Howl } from "howler";
 
-export const ChordView = ({ handleNotePlayed, id, name, chord }) => {
+export const ChordView = ({ handleNotePlayed, rope, name, chord }) => {
 
     // Referencia a Howl
     const audioRef = useRef(null);
@@ -14,19 +14,19 @@ export const ChordView = ({ handleNotePlayed, id, name, chord }) => {
         audioRef.current = new Howl({
             src: [audioPath],
             // MENSAJES DE CONSOLA FUNCIONALES
-            onload: () => console.log(`${name} loaded`),
-            onplay: () => console.log(`${name} playing`),
-            onend: () => console.log(`${name} ended`),
-            onloaderror: (id, error) => console.error(`Error loading ${name}:`, error),
-            onplayerror: (id, error) => console.error(`Error playing ${name}:`, error),
+            // onload: () => console.log(`${name} loaded`),
+            // onplay: () => console.log(`${name} playing`),
+            // onend: () => console.log(`${name} ended`),
+            // onloaderror: (id, error) => console.error(`Error loading ${name}:`, error),
+            // onplayerror: (id, error) => console.error(`Error playing ${name}:`, error),
         });
     }, [audioPath]);
 
     const playSound = () => {
         if (audioRef.current) {
             audioRef.current.play();
-            console.log(name + " " + id + " " + chord);
-            handleNotePlayed({ id, chord }, audioRef);
+            console.log(name + " " + chord + " " + chord);
+            handleNotePlayed({ rope, chord }, audioRef);
         }
     };
 
@@ -75,7 +75,7 @@ export const ChordView = ({ handleNotePlayed, id, name, chord }) => {
         <button
             type="button"
             onClick={playSound}>
-            {"tocar " + id}
+            {"tocar " + chord}
         </button>
     </>)
 }

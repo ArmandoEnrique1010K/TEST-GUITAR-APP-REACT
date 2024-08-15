@@ -7,11 +7,11 @@ export const GuitarView = ({ handleNotePlayed, ropes }) => {
         <div>
             {
                 // Desestructurar los atributos de un elemento ropes
-                ropes.map(({ id, frets }) => {
+                ropes.map(({ rope, frets }) => {
                     return (
                         <RopesView
-                            key={id}
-                            id={id}
+                            key={rope}
+                            rope={rope}
                             frets={frets}
                             handleNotePlayed={handleNotePlayed}
                         />
@@ -21,3 +21,4 @@ export const GuitarView = ({ handleNotePlayed, ropes }) => {
         </div>
     </>)
 }
+

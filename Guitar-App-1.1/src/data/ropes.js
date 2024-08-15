@@ -2,98 +2,136 @@
 export const ropes = [
   // AQUI SE DEFINEN LAS 6 CUERDAS DE LA GUITARRA
   {
-    id: 1,
+    rope: 1,
     frets: [
       // AQUI SE DEFINEN LOS TRASTES O LAS 21 NOTAS DE LA GUITARRA POR CADA CUERDA
       {
-        id: 100,
-        chord: 0,
+        chord: 100,
         name: "1-0",
       },
       {
-        id: 101,
-        chord: 1,
+        chord: 101,
         name: "1-1",
       },
+      {
+        chord: 102,
+        name: "1-2",
+      },
+      {
+        chord: 103,
+        name: "1-3",
+      },
+
       // ...
     ],
   },
   {
-    id: 2,
+    rope: 2,
     frets: [
       {
-        id: 200,
-        chord: 0,
+        chord: 200,
         name: "2-0",
       },
       {
-        id: 201,
-        chord: 1,
+        chord: 201,
         name: "2-1",
       },
+      {
+        chord: 202,
+        name: "2-2",
+      },
+      {
+        chord: 203,
+        name: "2-3",
+      },
+
       // ...
     ],
   },
   {
-    id: 3,
+    rope: 3,
     frets: [
       {
-        id: 300,
-        chord: 0,
+        chord: 300,
         name: "3-0",
       },
       {
-        id: 301,
-        chord: 1,
+        chord: 301,
         name: "3-1",
+      },
+      {
+        chord: 302,
+        name: "3-2",
+      },
+      {
+        chord: 303,
+        name: "3-3",
       },
       // ...
     ],
   },
   {
-    id: 4,
+    rope: 4,
     frets: [
       {
-        id: 400,
-        chord: 0,
+        chord: 400,
         name: "4-0",
       },
       {
-        id: 401,
-        chord: 1,
+        chord: 401,
         name: "4-1",
+      },
+      {
+        chord: 402,
+        name: "4-2",
+      },
+      {
+        chord: 403,
+        name: "4-3",
       },
       // ...
     ],
   },
   {
-    id: 5,
+    rope: 5,
     frets: [
       {
-        id: 500,
-        chord: 0,
+        chord: 500,
         name: "5-0",
       },
       {
-        id: 501,
-        chord: 1,
+        chord: 501,
         name: "5-1",
+      },
+      {
+        chord: 502,
+        name: "5-2",
+      },
+      {
+        chord: 503,
+        name: "5-3",
       },
       // ...
     ],
   },
   {
-    id: 6,
+    rope: 6,
     frets: [
       {
-        id: 600,
-        chord: 0,
+        chord: 600,
         name: "6-0",
       },
       {
-        id: 601,
-        chord: 1,
+        chord: 601,
         name: "6-1",
+      },
+      {
+        chord: 602,
+        name: "6-2",
+      },
+      {
+        chord: 603,
+        name: "6-3",
       },
       // ...
     ],

@@ -1,15 +1,19 @@
 import { ChordView } from "./ChordView"
 
-export const RopesView = ({ handleNotePlayed, id, frets = [] }) => {
+export const RopesView = ({ handleNotePlayed, rope, frets = [] }) => {
+
+
     return (<>
+        <div>Fila: {rope}</div>
         <div>
             {
-                frets.map(({ id, name, chord }) => (
-                    <div key={id}>
+                frets.map(({ rope, name, chord }) => (
+                    <div key={chord}>
                         <ChordView
-                            id={id}
+                            id={chord}
                             name={name}
                             chord={chord}
+                            rope={rope}
                             handleNotePlayed={handleNotePlayed}
                         />
                     </div>
