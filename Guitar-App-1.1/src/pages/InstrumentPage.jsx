@@ -38,7 +38,12 @@ export const InstrumentPage = () => {
             currentAudioRef.current.pause();
             currentAudioRef.current.currentTime = 0;
         }
+<<<<<<< HEAD
         if (currentNote.rope === note.rope && currentNote.chord === note.chord) {
+=======
+        // SI TOCA LA MISMA NOTA O ACORDE, ENTONCES SE SILENCIARA EL SONIDO ANTERIOR Y SE REPRODUCIRA DE NUEVO
+        if (currentNote.id === note.id && currentNote.chord === note.chord) {
+>>>>>>> 1c3fde67dbb993fab51d2e59c3b6f6a9d6f7dd62
             currentAudioRef.current.currentTime = 0;
             currentAudioRef.current.play()
 
