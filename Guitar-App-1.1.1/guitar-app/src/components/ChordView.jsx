@@ -35,15 +35,13 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, notSameRope
         if (audioRef.current) {
             audioRef.current.start();
             // console.log("reproduciendo el archivo " + file)
+
         }
-        handleNotePlayed({ rope, chord }, audioRef)
+        handleNotePlayed({ rope, chord }, audioRef, notSameRope)
     }
 
     useEffect(() => {
         // Activar el modo silenciar al tocar un acorde de una cuerda diferente
-        if (notSameRope == true) {
-            console.log("Esta activada")
-        }
     }, [notSameRope])
 
     return (

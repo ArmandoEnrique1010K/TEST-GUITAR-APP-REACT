@@ -24,7 +24,7 @@ export const GuitarPage = () => {
     }, [])
 
     // Función para manejar la reproducción de una nota y detener la anterior si es necesario
-    const handleNotePlayed = (currentNote, currentAudioRef) => {
+    const handleNotePlayed = (currentNote, currentAudioRef, notSameRope) => {
         // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
         if (previousNote.rope === currentNote.rope && previousAudioRef.current) {
             previousAudioRef.current.stop();
@@ -37,6 +37,16 @@ export const GuitarPage = () => {
             previousAudioRef.current.start()
         }
 
+        // CORREGIR
+        if (notSameRope == true) {
+            // Si el acorde de la nota anterior es el mismo que el del acorde actual y el audio anterior es diferente del actual, detener la reproducción de la anterior
+            if (previousNote.chord === currentNote.chord && previousAudioRef.current) {
+                previousAudioRef.current.stop();
+                previousAudioRef.current.seek(0);
+                console.log("Esta activada")
+            }
+
+        }
         setpreviousNote(currentNote);
 
         previousAudioRef.current = currentAudioRef.current;

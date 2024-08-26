@@ -21,7 +21,7 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
             >
                 {/* DEFINIR BOTONES: Volumen de cuerda y Opcion para silenciar si toca una nota diferente a la de esta cuerda */}
                 <div>
-                    <button onClick={onActiveNotSameRope}>Silenciar cuerda</button>
+                    <button onClick={onActiveNotSameRope}>{!notSameRope ? "Silenciar al cambiar cuerda" : "No silenciar al cambiar cuerda"}</button>
                     <input type="range" min={0} max={2} step={0.1}></input>
                 </div>
                 <div
