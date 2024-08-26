@@ -2,7 +2,7 @@ import PropType from "prop-types";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ chord, file, handleNotePlayed, rope, notSameRope }) => {
+export const ChordView = ({ id, chord, file, handleNotePlayed, rope, notSameRope }) => {
 
     // Referenciar a un elemento HTML
     const audioRef = useRef(null);
@@ -39,10 +39,12 @@ export const ChordView = ({ chord, file, handleNotePlayed, rope, notSameRope }) 
         handleNotePlayed({ rope, chord }, audioRef)
     }
 
-    // Activar el modo silenciar al tocar un acorde de una cuerda diferente
-    if (notSameRope == true) {
-
-    }
+    useEffect(() => {
+        // Activar el modo silenciar al tocar un acorde de una cuerda diferente
+        if (notSameRope == true) {
+            console.log("Esta activada")
+        }
+    }, [notSameRope])
 
     return (
         <>

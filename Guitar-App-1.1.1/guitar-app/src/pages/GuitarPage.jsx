@@ -46,6 +46,10 @@ export const GuitarPage = () => {
         console.log(`La nota actual es: ${currentNote.rope} : ${currentNote.chord}`);
     }
 
+
+
+
+
     return (
         <>
             <NeckView neck={neck} handleNotePlayed={handleNotePlayed} />

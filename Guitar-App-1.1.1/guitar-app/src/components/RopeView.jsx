@@ -29,16 +29,16 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
                     style={{ display: "flex", flexDirection: "row" }}
                 >
                     {
-                        frets.map(({ chord, file }) => (
-                            <div key={chord}>
-                                <ChordView
-                                    chord={chord}
-                                    file={file}
-                                    rope={rope}
-                                    handleNotePlayed={handleNotePlayed}
-                                    notSameRope={notSameRope}
-                                />
-                            </div>
+                        frets.map(({ id, chord, file }) => (
+                            <ChordView
+                                id={id}
+                                key={id}
+                                chord={chord}
+                                file={file}
+                                rope={rope}
+                                handleNotePlayed={handleNotePlayed}
+                                notSameRope={notSameRope}
+                            />
                         ))
                     }
                 </div>
