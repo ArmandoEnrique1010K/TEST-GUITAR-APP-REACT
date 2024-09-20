@@ -48,7 +48,7 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
             <button
                 type="button"
                 onClick={playSound}>
-                Play {chord}
+                Play {rope} - {chord}
             </button>
         </>
     )
@@ -61,5 +61,4 @@ ChordView.propTypes = {
     handleNotePlayed: PropType.func,
     rope: PropType.number,
     volumenRope: PropType.number
-
 }
