@@ -2,10 +2,10 @@
 // Este arreglo representa las cuerdas y trastes de una guitarra.
 
 // rope: cuerda (número de cuerda, empezando desde la más fina)
-// frets: trastes (las divisiones a lo largo del mástil que definen las notas)
-// id: identificador unico (se asigna a cada acorde)
-// chord: acorde (representa la nota o el acorde asociado con ese traste)
-// file: nombre del archivo de sonido correspondiente a la nota en ese traste
+// frets: trastes (las divisiones a lo largo del mástil que definen las notas), contiene atributos:
+// --> id: identificador unico (se asigna a cada acorde)
+// --> chord: acorde (representa la nota o el acorde asociado con ese traste)
+// --> file: nombre del archivo de sonido correspondiente a la nota en ese traste
 
 export const neck = [
   {

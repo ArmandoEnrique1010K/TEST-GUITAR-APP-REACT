@@ -1,8 +1,14 @@
 import PropType from "prop-types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
 
 export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope }) => {
+    // Estado para almacenar la nota actual reproducida
+
+    const [currentNote, setCurrentNote] = useState({
+        rope: rope,
+        chord: chord
+    })
 
     // Referenciar a un elemento HTML
     const audioRef = useRef(null);
@@ -22,8 +28,8 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
     // }, [audioPath]);
     useEffect(() => {
         gainNodeRef.current = new Tone.Gain(volumenRope).toDestination();
-        audioRef.current = new Tone.Player(audioPath).connect(gainNodeRef.current).toDestination();
-    }), [audioPath];
+        audioRef.current = new Tone.Player(audioPath).connect(gainNodeRef.current);
+    }), [audioPath, volumenRope];
 
 
     // Función para reproducir sonido
@@ -33,7 +39,8 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
             //     // console.log("reproduciendo el archivo " + file)
 
         }
-        handleNotePlayed({ rope, chord }, audioRef)
+        setCurrentNote({ rope, chord });
+        handleNotePlayed(currentNote, audioRef)
     }
 
     return (
@@ -50,6 +57,9 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
 ChordView.propTypes = {
     id: PropType.number,
     chord: PropType.number,
-    file: PropType.string
+    file: PropType.string,
+    handleNotePlayed: PropType.func,
+    rope: PropType.number,
+    volumenRope: PropType.number
 
 }

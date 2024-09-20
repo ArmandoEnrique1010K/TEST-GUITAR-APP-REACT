@@ -26,11 +26,11 @@ PLANOS DE AHORA
 
 ## REQUERIMIENTOS DE USUARIO
 
-- [ ] Cada vez que pulsa sobre un boton de la guitarra, que reproduzca la nota
+- [x] Cada vez que pulsa sobre un boton de la guitarra, que reproduzca la nota
 
-- [ ] Al tocar una nota en la misma fila, silenciar la nota anterior, pues es el comportamiento por defecto del instrumento
+- [x] Al tocar una nota en la misma fila, silenciar la nota anterior, pues es el comportamiento por defecto del instrumento
 
-- [ ] Controlar el volumen del sonido por una fila de notas (efecto de sonido amplificador)
+- [x] Controlar el volumen del sonido por una fila de notas (efecto de sonido amplificador)
 
 - [ ] Alternar entre modos de cuerda:
   

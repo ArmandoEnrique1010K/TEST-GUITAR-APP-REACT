@@ -6,19 +6,14 @@ import { ControlsView } from "../components/ControlsView";
 
 export const GuitarPage = () => {
 
-    // Estado para el mástil de la guitarra
+    // Estado para el mástil de la guitarra, 
     const [neck, setNeck] = useState([]);
 
-    // Estado para almacenar la última nota reproducida
+    // Estado para almacenar la nota anterior reproducida
     const [previousNote, setpreviousNote] = useState({
         rope: null,
         chord: null,
     })
-
-    // const [currentNote, setCurrentNote] = useState({
-    //     rope: null,
-    //     chord: null
-    // })
 
     // Referencia al elemento de audio de la nota previamente reproducida
     const previousAudioRef = useRef(null);
@@ -38,8 +33,7 @@ export const GuitarPage = () => {
 
         // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
         if (previousNote.rope === currentNote.rope && previousNote.chord === currentNote.chord) {
-            previousAudioRef.current.seek(0);
-            previousAudioRef.current.start()
+            previousAudioRef.current.stop();
         }
 
         setpreviousNote(currentNote);

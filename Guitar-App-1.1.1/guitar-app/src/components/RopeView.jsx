@@ -10,7 +10,8 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
 
     // Función para el manejo del volumen amplificado
     const onVolumenRopeChange = ({ target: { value } }) => {
-        setVolumenRope(value);
+        // Operador unario + convierte a tipo number
+        setVolumenRope(+value);
     }
 
 
@@ -20,9 +21,9 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
                 // Eliminar este estilo, solamente es para visualizar
                 style={{ display: "flex", flexDirection: "row" }}
             >
-                {/* DEFINIR BOTONES: Volumen de cuerda y Opcion para silenciar si toca una nota diferente a la de esta cuerda */}
+                {/* DEFINIR BOTONES: Volumen de cuerda */}
                 <div>
-                    <input type="range" min={0} max={2} step={0.1} value={volumenRope} onChange={onVolumenRopeChange}></input>
+                    <input type="range" min={0.1} max={2} step={0.1} value={volumenRope} onChange={onVolumenRopeChange}></input>
                 </div>
                 <div
                     // Eliminar este estilo, solamente es para visualizar
