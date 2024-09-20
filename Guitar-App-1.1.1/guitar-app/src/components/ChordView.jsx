@@ -2,7 +2,7 @@ import PropType from "prop-types";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ id, chord, file, handleNotePlayed, rope, notSameRope }) => {
+export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope }) => {
 
     // Referenciar a un elemento HTML
     const audioRef = useRef(null);
@@ -14,35 +14,27 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, notSameRope
 
     // Cargar el archivo de sonido
     // useEffect(() => {
-    //     audioRef.current = new Howl({
-    //         // Establece la dirección
-    //         src: [audioPath]
-    //     });
+
+    //     // Crear un nodo de ganancia para amplificar el volumen
+    //     gainNodeRef.current = new Tone.Gain(volumenRope).toDestination();
+    //     audioRef.current = new Tone.Player(audioPath).connect(gainNodeRef.current).toDestination();
+
     // }, [audioPath]);
-
-    // Cargar el archivo de sonido
     useEffect(() => {
-
-        // Crear un nodo de ganancia para amplificar el volumen
-        gainNodeRef.current = new Tone.Gain(1).toDestination();
+        gainNodeRef.current = new Tone.Gain(volumenRope).toDestination();
         audioRef.current = new Tone.Player(audioPath).connect(gainNodeRef.current).toDestination();
-
-    }, [audioPath]);
+    }), [audioPath];
 
 
     // Función para reproducir sonido
     const playSound = () => {
         if (audioRef.current) {
             audioRef.current.start();
-            // console.log("reproduciendo el archivo " + file)
+            //     // console.log("reproduciendo el archivo " + file)
 
         }
-        handleNotePlayed({ rope, chord }, audioRef, notSameRope)
+        handleNotePlayed({ rope, chord }, audioRef)
     }
-
-    useEffect(() => {
-        // Activar el modo silenciar al tocar un acorde de una cuerda diferente
-    }, [notSameRope])
 
     return (
         <>
@@ -56,6 +48,8 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, notSameRope
 }
 
 ChordView.propTypes = {
+    id: PropType.number,
     chord: PropType.number,
     file: PropType.string
+
 }

@@ -22,5 +22,6 @@ export const NeckView = ({ neck, handleNotePlayed }) => {
 }
 
 NeckView.propTypes = {
-    neck: PropType.array
+    neck: PropType.array,
+    handleNotePlayed: PropType.func,
 }

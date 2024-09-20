@@ -23,3 +23,27 @@ PLANOS DE AHORA
 40 41 42 43
 50 51 52 53
 60 61 62 63
+
+## REQUERIMIENTOS DE USUARIO
+
+- [ ] Cada vez que pulsa sobre un boton de la guitarra, que reproduzca la nota
+
+- [ ] Al tocar una nota en la misma fila, silenciar la nota anterior, pues es el comportamiento por defecto del instrumento
+
+- [ ] Controlar el volumen del sonido por una fila de notas (efecto de sonido amplificador)
+
+- [ ] Alternar entre modos de cuerda:
+  
+  - [ ] Modo Normal:
+  
+  - [ ] Modo automatico: silencia la nota anterior que fue tocada en una fila diferente
+  
+  - [ ] Modo pulso: silencia la nota al soltar la tecla o el cursor presionado ???
+  
+  - [ ] 
+
+- [ ] Un boton para silenciar todas las notas tocadas hasta el momento
+
+- [ ] Visualizar 11 columnas de notas por defecto, esto lo podra controlar mediante un controlador
+
+- [ ] ?????? UN CRUD PARA EL MANEJO DE CONFIGURACIONES DE LA GUITARRA 

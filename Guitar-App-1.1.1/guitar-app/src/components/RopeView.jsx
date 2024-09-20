@@ -5,13 +5,14 @@ import { useState } from "react";
 
 export const RopeView = ({ rope, frets, handleNotePlayed }) => {
 
-    // Estado para activar el modo silenciar al tocar un acorde de una cuerda diferente
-    const [notSameRope, setNotSameRope] = useState(false);
+    // Estado para el volumen amplificado de la nota
+    const [volumenRope, setVolumenRope] = useState(1);
 
-    // Funcion para activar el modo silenciar al tocar un acorde de una cuerda diferente
-    const onActiveNotSameRope = () => {
-        setNotSameRope(!notSameRope);
+    // Función para el manejo del volumen amplificado
+    const onVolumenRopeChange = ({ target: { value } }) => {
+        setVolumenRope(value);
     }
+
 
     return (
         <>
@@ -21,8 +22,7 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
             >
                 {/* DEFINIR BOTONES: Volumen de cuerda y Opcion para silenciar si toca una nota diferente a la de esta cuerda */}
                 <div>
-                    <button onClick={onActiveNotSameRope}>{!notSameRope ? "Silenciar al cambiar cuerda" : "No silenciar al cambiar cuerda"}</button>
-                    <input type="range" min={0} max={2} step={0.1}></input>
+                    <input type="range" min={0} max={2} step={0.1} value={volumenRope} onChange={onVolumenRopeChange}></input>
                 </div>
                 <div
                     // Eliminar este estilo, solamente es para visualizar
@@ -37,7 +37,7 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
                                 file={file}
                                 rope={rope}
                                 handleNotePlayed={handleNotePlayed}
-                                notSameRope={notSameRope}
+                                volumenRope={volumenRope}
                             />
                         ))
                     }
@@ -49,5 +49,6 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
 
 RopeView.propTypes = {
     rope: PropType.number,
-    frets: PropType.array
+    frets: PropType.array,
+    handleNotePlayed: PropType.func,
 }
