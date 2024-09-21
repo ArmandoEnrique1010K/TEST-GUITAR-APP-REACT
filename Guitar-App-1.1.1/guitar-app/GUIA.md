@@ -26,6 +26,8 @@ PLANOS DE AHORA
 
 ## REQUERIMIENTOS DE USUARIO
 
+- [ ] Grabar más de 100 notas de una guitarra, voy 12 notas hasta el momento
+
 - [x] Cada vez que pulsa sobre un boton de la guitarra, que reproduzca la nota
 
 - [x] Al tocar una nota en la misma fila, silenciar la nota anterior, pues es el comportamiento por defecto del instrumento
@@ -36,9 +38,9 @@ PLANOS DE AHORA
   
   - [x] Modo Normal: no silencia la nota que fue tocada en una fila diferente
   
-  - [ ] Modo automatico ->: silencia la nota anterior que fue tocada en una fila diferente
+  - [ ] Modo automatico NEXT: silencia la nota ... que fue tocada en una fila diferente
   
-  - [ ] Modo automatico <-: silencia la nota actual que fue tocada en una fila diferente
+  - [x] Modo automatico PREV: silencia la nota anterior que fue tocada en una fila diferente
 
 - [ ] Modo auto / pulso: reproduce la nota al pulsar la tecla o lo silencia al momento de soltar la tecla.
 

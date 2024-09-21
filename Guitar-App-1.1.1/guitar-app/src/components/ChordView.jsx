@@ -42,7 +42,16 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
             //     // console.log("reproduciendo el archivo " + file)
         }
         // setCurrentNote({ rope, chord });
-        handleNotePlayed(modRope, { rope, chord }, audioRef);
+
+        const modRopeNote = { r: null, c: null };
+        if (modRope === "PREV") {
+            modRopeNote.r = rope;
+            modRopeNote.c = chord;
+        } else {
+            modRopeNote.r = null;
+            modRopeNote.c = null;
+        }
+        handleNotePlayed(modRope, { rope, chord }, modRopeNote, audioRef);
     }
 
     return (
