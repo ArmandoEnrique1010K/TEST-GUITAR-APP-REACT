@@ -13,6 +13,6 @@ export const keyboard = [
   },
   {
     row: 4,
-    keys: ["z", "x", "c", "v", "b", "n", "m", ",", ".", "-", "SHIFT"],
+    keys: ["z", "x", "c", "v", "b", "n", "m", ",", ".", "-", "Shift"],
   },
 ];

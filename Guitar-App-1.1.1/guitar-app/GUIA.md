@@ -34,11 +34,11 @@ PLANOS DE AHORA
 
 - [ ] Alternar entre modos de cuerda:
   
-  - [ ] Modo Normal:
+  - [x] Modo Normal: no silencia la nota que fue tocada en una fila diferente
   
-  - [ ] Modo automatico: silencia la nota anterior que fue tocada en una fila diferente
+  - [ ] Modo automatico ->: silencia la nota anterior que fue tocada en una fila diferente
   
-  - [ ] Modo pulso: silencia la nota al soltar la tecla o el cursor presionado ???
+  - [ ] Modo automatico <-: silencia la nota actual que fue tocada en una fila diferente
 
 - [ ] Modo auto / pulso: reproduce la nota al pulsar la tecla o lo silencia al momento de soltar la tecla.
 
@@ -77,5 +77,9 @@ EL PEOR ERROR - LA SOLUCIÓN FUE IMPLEMENTAR HOWLER JS EN LUGAR DE ENCADENAR PRO
 https://tonejs.github.io/
 
 https://libreriasjs.com/libreria-javascript-crear-musica-electronica-tonejs/
+
+https://legacy.reactjs.org/docs/events.html#keyboard-events
+
+[React onKeyDown Event - GeeksforGeeks](https://www.geeksforgeeks.org/react-onkeydown-event/)
 
 ## DIFICULTADES

@@ -2,7 +2,7 @@ import PropType from "prop-types";
 
 import { RopeView } from "./RopeView"
 
-export const NeckView = ({ neck, handleNotePlayed }) => {
+export const NeckView = ({ neck, handleNotePlayed, keyboard }) => {
     return (
         <>
             <p>Este es el mastil de la guitarra</p>
@@ -13,7 +13,8 @@ export const NeckView = ({ neck, handleNotePlayed }) => {
                             key={rope}
                             rope={rope}
                             frets={frets}
-                            handleNotePlayed={handleNotePlayed} />
+                            handleNotePlayed={handleNotePlayed}
+                        />
                     ))
                 }
             </div >

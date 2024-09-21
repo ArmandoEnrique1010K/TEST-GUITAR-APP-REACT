@@ -2,14 +2,15 @@ import PropType from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope }) => {
+export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope }) => {
     // Estado para almacenar la nota actual reproducida
 
-    const [currentNote, setCurrentNote] = useState({
-        rope: rope,
-        chord: chord
-    })
+    // const [currentNote, setCurrentNote] = useState({
+    //     rope: rope,
+    //     chord: chord
+    // })
 
+    // UTILICE CHATGPT PARA INVESTIGAR ESO
     // Referenciar a un elemento HTML
     const audioRef = useRef(null);
     const gainNodeRef = useRef(null);
@@ -26,6 +27,8 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
     //     audioRef.current = new Tone.Player(audioPath).connect(gainNodeRef.current).toDestination();
 
     // }, [audioPath]);
+
+    // UTILICE CHATGPT PARA INVESTIGAR ESO
     useEffect(() => {
         gainNodeRef.current = new Tone.Gain(volumenRope).toDestination();
         audioRef.current = new Tone.Player(audioPath).connect(gainNodeRef.current);
@@ -37,10 +40,9 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
         if (audioRef.current) {
             audioRef.current.start();
             //     // console.log("reproduciendo el archivo " + file)
-
         }
-        setCurrentNote({ rope, chord });
-        handleNotePlayed(currentNote, audioRef)
+        // setCurrentNote({ rope, chord });
+        handleNotePlayed(modRope, { rope, chord }, audioRef);
     }
 
     return (
