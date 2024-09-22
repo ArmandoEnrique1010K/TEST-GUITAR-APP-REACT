@@ -2,7 +2,7 @@ import PropType from "prop-types";
 
 import { RopeView } from "./RopeView"
 
-export const NeckView = ({ neck, handleNotePlayed, keyboard, onPanelChange }) => {
+export const NeckView = ({ neck, handleNotePlayed, keyboard, onPanelChange, getDynamicFretboardSimulation }) => {
     return (
         <>
             <p>Este es el mastil de la guitarra</p>

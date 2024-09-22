@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { getNeck } from "../services/getNeck";
 import { ControlsView } from "../components/ControlsView";
 import { getKeyboard } from "../services/getKeyboard";
+import { getDynamicFretboardSimulation } from "../services/getDynamicFretboardSimulation";
 
 export const GuitarPage = () => {
 
@@ -100,13 +101,43 @@ export const GuitarPage = () => {
         setKeyboard(getKeyboard);
     }, [])
 
+
+    const [typeAssignKeys, setTypeAssignKeys] = useState("first");
+
+    const onTypeAssignKeys = (value) => {
+        setTypeAssignKeys(value);
+        onPanelChange(`Se ha configurado las teclas en modo ${value}`)
+        switch (value) {
+            // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA
+            // LOS SIGUIENTES 6 REPRESENTAN EL ORDEN DE LAS FILAS DEL TECLADO, LOS VALORS 5 Y 6 SON FILAS NULAS, UNDEFINED
+            // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
+            case "first":
+                // COMPORTAMIENTO POR DEFECTO
+                console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
+                // etDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0);
+                break;
+            case "last":
+                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
+                getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0);
+                break
+            case "middle":
+                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
+                getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0);
+                break
+            case "alternate":
+                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
+                getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0);
+                break;
+        }
+    }
+
     return (
         <>
-            <NeckView neck={neck} keyboard={keyboard} handleNotePlayed={handleNotePlayed} onPanelChange={onPanelChange} />
+            <NeckView neck={neck} keyboard={keyboard} handleNotePlayed={handleNotePlayed} onPanelChange={onPanelChange} getDynamicFretboardSimulation={getDynamicFretboardSimulation} />
             <div>
                 {panel}
             </div>
-            <ControlsView />
+            <ControlsView typeAssignKeys={typeAssignKeys} onTypeAssignKeys={onTypeAssignKeys} />
         </>
     )
 }
