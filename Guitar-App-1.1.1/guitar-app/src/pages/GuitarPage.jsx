@@ -7,6 +7,8 @@ import { getKeyboard } from "../services/getKeyboard";
 
 export const GuitarPage = () => {
 
+    // ESTADO PARA EL PANEL DE LA GUITARRA (PANTALLA DE CONFIGURACION)
+    const [panel, setPanel] = useState("Bienvenido a GuitarApp");
     // Estado para el mástil de la guitarra, 
     const [neck, setNeck] = useState([]);
 
@@ -50,13 +52,9 @@ export const GuitarPage = () => {
             previousAudioRef.current = currentAudioRef.current;
             setpreviousNote(currentNote);
 
-        } else if (statusModRope == "PREV") {
-            // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
-            // if (previousNote.rope === currentNote.rope && previousAudioRef.current) {
-            //     previousAudioRef.current.stop();
-            //     previousAudioRef.current.seek(0);
-            // }
+        }
 
+        if (statusModRope == "ON") {
             // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
             if (previousNote.rope === currentNote.rope && previousNote.chord === currentNote.chord) {
                 previousAudioRef.current.stop();
@@ -68,44 +66,28 @@ export const GuitarPage = () => {
                 modRopePreviousAudioRef.current.seek(0);
             }
 
-            // previousAudioRef.current = currentAudioRef.current;
-            // SI LA NOTA ANTERIOR REPRODUCIDA EN ESTE MODO DE CUERDA
-            // if (modRopePreviousNote.rope === currentNote.rope && modRopePreviousAudioRef.current) {
-            //     modRopePreviousAudioRef.current.stop();
-            //     modRopePreviousAudioRef.current.seek(0);
-
-            // }
-
-            // ESTO SE TIENE QUE ARREGLAR
-            // CUANDO TOCA UNA NOTA QUE SE ENCUENTRA EN UNA CUERDA CON EL MODO OFF, ESA NOTA DEBE SEGUIR REPRODUCIENDOSE A PESAR DE QUE TOCA NOTAS EN MODO PREV
-
             // Si la nota es la misma, reinicia la reproducción
             if (modRopePreviousNote.rope === modRopeCurrentNote.rope && modRopePreviousNote.chord === modRopeCurrentNote.chord) {
                 modRopePreviousAudioRef.current.stop();
             }
 
-            // if (modRopePreviousNote.rope === modRopeCurrentNote.rope && modRopePreviousNote.chord === modRopeCurrentNote.chord) {
-            //     modRopePreviousAudioRef.current.stop();
-            // }
-
-            // CAMBIO EL ORDEN
             modRopePreviousAudioRef.current = currentAudioRef.current;
             setModRopePreviousNote(modRopeCurrentNote);
-
         }
-
-        // if (statusModRope == "NEXT") {
-        //     console.log("MODO NEXT");
-        //     setModRopePreviousNote(currentNote);
-        // }
-        //..................................
-
-
 
         // Imprimir la información sobre la nota anterior y la actual
         console.log(`La nota anterior fue ${previousNote.rope} : ${previousNote.chord}`);
         console.log(`La nota actual es: ${currentNote.rope} : ${currentNote.chord}`);
     }
+
+    const onPanelChange = (message) => {
+        setPanel(message);
+    };
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setPanel("...")
+    //     }, 5000)
+    // }, [panel])
 
     useEffect(() => {
 
@@ -120,7 +102,10 @@ export const GuitarPage = () => {
 
     return (
         <>
-            <NeckView neck={neck} keyboard={keyboard} handleNotePlayed={handleNotePlayed} />
+            <NeckView neck={neck} keyboard={keyboard} handleNotePlayed={handleNotePlayed} onPanelChange={onPanelChange} />
+            <div>
+                {panel}
+            </div>
             <ControlsView />
         </>
     )

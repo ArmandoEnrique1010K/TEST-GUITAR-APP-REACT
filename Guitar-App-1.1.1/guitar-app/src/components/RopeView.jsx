@@ -3,34 +3,34 @@ import PropType from "prop-types";
 import { ChordView } from "./ChordView"
 import { useState } from "react";
 
-export const RopeView = ({ rope, frets, handleNotePlayed }) => {
+export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange }) => {
 
-    // Estado para el volumen amplificado de la nota
+    // Estado para el volumen amplificado de la nota (EFECTO DE SONIDO)
     const [volumenRope, setVolumenRope] = useState(1);
 
     // Estado para el modo de cuerda: Normal o Silenciar al cambiar de cuerda
     // NORMAL (OFF)
     // SIGUIENTE (NEXT)
     // ANTERIOR (PREV)
-    const [modRope, setModRope] = useState("OFF");
+    const [modRope, setModRope] = useState("ON");
 
     // Función para el manejo del volumen amplificado
     const onVolumenRopeChange = ({ target: { value } }) => {
         // Operador unario + convierte a tipo number
         setVolumenRope(+value);
+        onPanelChange(`El volumen para la cuerda ${rope} se ha establecido en ${(value * 100).toFixed(0)}`)
     }
 
     // Función para cambiar el modo de cuerda
     const onModRope = () => {
         switch (modRope) {
             case "OFF":
-                setModRope("NEXT")
+                setModRope("ON");
+                onPanelChange(`Se ha habilitado para la cuerda ${rope}`)
                 break;
-            case "NEXT":
-                setModRope("PREV")
-                break;
-            case "PREV":
-                setModRope("OFF")
+            case "ON":
+                setModRope("OFF");
+                onPanelChange(`Se ha deshabilitado para la cuerda ${rope}`);
                 break;
         }
     }
@@ -43,7 +43,7 @@ export const RopeView = ({ rope, frets, handleNotePlayed }) => {
             >
                 {/* DEFINIR BOTONES: Volumen de cuerda */}
                 <div>
-                    <input type="range" min={0.1} max={2} step={0.1} value={volumenRope} onChange={onVolumenRopeChange}></input>
+                    <input type="range" min={0} max={2} step={0.1} value={volumenRope} onChange={onVolumenRopeChange}></input>
                 </div>
                 <div>
                     <button type="button" onClick={onModRope}>{modRope}</button>

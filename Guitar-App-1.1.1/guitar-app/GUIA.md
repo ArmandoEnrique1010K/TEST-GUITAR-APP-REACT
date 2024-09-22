@@ -26,7 +26,7 @@ PLANOS DE AHORA
 
 ## REQUERIMIENTOS DE USUARIO
 
-- [ ] Grabar más de 100 notas de una guitarra, voy 12 notas hasta el momento
+- [ ] La guitarra debe tener más de 100 notas, grabe 12 notas hasta el momento
 
 - [x] Cada vez que pulsa sobre un boton de la guitarra, que reproduzca la nota
 
@@ -34,11 +34,9 @@ PLANOS DE AHORA
 
 - [x] Controlar el volumen del sonido por una fila de notas (efecto de sonido amplificador)
 
-- [ ] Alternar entre modos de cuerda:
+- [x] Alternar entre modos de cuerda:
   
   - [x] Modo Normal: no silencia la nota que fue tocada en una fila diferente
-  
-  - [ ] Modo automatico NEXT: silencia la nota ... que fue tocada en una fila diferente
   
   - [x] Modo automatico PREV: silencia la nota anterior que fue tocada en una fila diferente
 
@@ -84,4 +82,8 @@ https://legacy.reactjs.org/docs/events.html#keyboard-events
 
 [React onKeyDown Event - GeeksforGeeks](https://www.geeksforgeeks.org/react-onkeydown-event/)
 
+[redondeo - &#191;C&#243;mo puedo redondear un n&#250;mero en React Native? - Stack Overflow en espa&#241;ol](https://es.stackoverflow.com/questions/114069/c%C3%B3mo-puedo-redondear-un-n%C3%BAmero-en-react-native)
+
 ## DIFICULTADES
+
+EFECTOS DE SONIDO EN TONEJS

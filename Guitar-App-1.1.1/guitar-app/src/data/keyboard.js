@@ -15,4 +15,12 @@ export const keyboard = [
     row: 4,
     keys: ["z", "x", "c", "v", "b", "n", "m", ",", ".", "-", "Shift"],
   },
+  {
+    row: 5,
+    keys: [],
+  },
+  {
+    row: 6,
+    keys: [],
+  },
 ];
