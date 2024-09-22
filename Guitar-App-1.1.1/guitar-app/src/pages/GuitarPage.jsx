@@ -1,7 +1,6 @@
 import { useRef, useState } from "react"
 import { NeckView } from "../components/NeckView"
 import { useEffect } from "react";
-import { getNeck } from "../services/getNeck";
 import { ControlsView } from "../components/ControlsView";
 import { getKeyboard } from "../services/getKeyboard";
 import { getDynamicFretboardSimulation } from "../services/getDynamicFretboardSimulation";
@@ -33,7 +32,7 @@ export const GuitarPage = () => {
 
     // Cargar los datos del mástil de la guitarra cuando la página se monta
     useEffect(() => {
-        setNeck(getNeck)
+        setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
     }, [])
 
     // Función para manejar la reproducción de una nota y detener la anterior si es necesario
@@ -114,19 +113,19 @@ export const GuitarPage = () => {
             case "first":
                 // COMPORTAMIENTO POR DEFECTO
                 console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
-                // etDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0);
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
                 break;
             case "last":
                 //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
-                getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0);
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
                 break
             case "middle":
                 //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
-                getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0);
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
                 break
             case "alternate":
                 //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
-                getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0);
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
                 break;
         }
     }

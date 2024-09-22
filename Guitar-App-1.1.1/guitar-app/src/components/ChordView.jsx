@@ -2,7 +2,7 @@ import PropType from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope }) => {
+export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope, keyfromkeyboard }) => {
     // Estado para almacenar la nota actual reproducida
 
     // const [currentNote, setCurrentNote] = useState({
@@ -59,7 +59,7 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
             <button
                 type="button"
                 onClick={playSound}>
-                Play {rope} - {chord}
+                Play {rope} - {chord} / Tecla: {keyfromkeyboard}
             </button>
         </>
     )

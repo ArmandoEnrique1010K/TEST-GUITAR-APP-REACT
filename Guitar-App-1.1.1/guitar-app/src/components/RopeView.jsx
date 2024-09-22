@@ -53,7 +53,7 @@ export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange }) => {
                     style={{ display: "flex", flexDirection: "row" }}
                 >
                     {
-                        frets.map(({ id, chord, file }) => (
+                        frets.map(({ id, chord, file, key: keyfromkeyboard }) => (
                             <ChordView
                                 id={id}
                                 key={id}
@@ -63,6 +63,7 @@ export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange }) => {
                                 handleNotePlayed={handleNotePlayed}
                                 volumenRope={volumenRope}
                                 modRope={modRope}
+                                keyfromkeyboard={keyfromkeyboard}
                             />
                         ))
                     }
