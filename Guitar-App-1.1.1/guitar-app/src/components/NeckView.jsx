@@ -2,19 +2,12 @@ import PropType from "prop-types";
 
 import { RopeView } from "./RopeView"
 
-export const NeckView = ({ neck, handleNotePlayed,
-    // keyboard, 
-    onPanelChange,
-    // keyfromkeyboard, handleKeyDownPlaySound 
-
-}) => {
-
-
+export const NeckView = ({ neck, handleNotePlayed, onPanelChange, }) => {
     return (
         <>
-            <p>Este es el mastil de la guitarra</p>
             <div>
                 {
+                    // El mastil de la guitarra
                     neck.map(({ rope, frets }) => (
                         <RopeView
                             key={rope}
@@ -22,8 +15,6 @@ export const NeckView = ({ neck, handleNotePlayed,
                             frets={frets}
                             handleNotePlayed={handleNotePlayed}
                             onPanelChange={onPanelChange}
-                        // handleKeyDownPlaySound={handleKeyDownPlaySound}
-                        // keyfromkeyboard={keyfromkeyboard}
                         />
                     ))
                 }

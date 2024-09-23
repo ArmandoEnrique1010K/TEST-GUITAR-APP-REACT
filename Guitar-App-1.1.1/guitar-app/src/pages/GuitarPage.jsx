@@ -2,7 +2,6 @@ import { useRef, useState } from "react"
 import { NeckView } from "../components/NeckView"
 import { useEffect } from "react";
 import { ControlsView } from "../components/ControlsView";
-// import { getKeyboard } from "../services/getKeyboard";
 import { getDynamicFretboardSimulation } from "../services/getDynamicFretboardSimulation";
 
 export const GuitarPage = () => {
@@ -13,20 +12,21 @@ export const GuitarPage = () => {
     // Estado para el mástil de la guitarra, 
     const [neck, setNeck] = useState([]);
 
-    // Estado para el teclado
-    // const [keyboard, setKeyboard] = useState([]);
-
     // Estado para almacenar la nota anterior reproducida
     const [previousNote, setpreviousNote] = useState({
         rope: null,
         chord: null,
     })
 
-    // ESTADO PARA ALMACENAR LA NOTA ANTERIOR EN EL MODO DE CUERDA
+    // Esto para almacenar la nota anterior reproducida en una cuerda en modo OFF
     const [modRopePreviousNote, setModRopePreviousNote] = useState({
         rope: null,
         chord: null,
     })
+
+    // Estado para el tipo de asignación de teclas por cada nota de la guitarra
+    const [typeAssignKeys, setTypeAssignKeys] = useState("first");
+
     // Referencia al elemento de audio de la nota previamente reproducida
     const previousAudioRef = useRef(null);
     const modRopePreviousAudioRef = useRef(null);
@@ -61,7 +61,7 @@ export const GuitarPage = () => {
                 previousAudioRef.current.stop();
             }
 
-            // Silenciar la nota anterior en modo PREV solo si está en una cuerda diferente
+            // Silenciar la nota anterior solo si está en una cuerda diferente
             if (modRopePreviousNote.rope !== modRopeCurrentNote.rope && modRopePreviousAudioRef.current) {
                 modRopePreviousAudioRef.current.stop();
                 modRopePreviousAudioRef.current.seek(0);
@@ -81,51 +81,30 @@ export const GuitarPage = () => {
         console.log(`La nota actual es: ${currentNote.rope} : ${currentNote.chord}`);
     }
 
+    // Establecer un mensaje de configuracion en el panel
     const onPanelChange = (message) => {
         setPanel(message);
     };
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setPanel("...")
-    //     }, 5000)
-    // }, [panel])
 
-    useEffect(() => {
-
-        console.log("Se modifico la nota anterior");
-
-    }, [previousNote])
-
-    // CARGAR LAS TECLAS ASIGNADAS
-    // useEffect(() => {
-    //     setKeyboard(getKeyboard);
-    // }, [])
-
-
-    const [typeAssignKeys, setTypeAssignKeys] = useState("first");
-
+    // Función para establecer las teclas por cada nota de la guitarra
     const onTypeAssignKeys = (value) => {
         setTypeAssignKeys(value);
         onPanelChange(`Se ha configurado las teclas en modo ${value}`)
         switch (value) {
-            // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA
+            // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA (SE PUEDE ELIMINAR, PERO EN OTRA SITUACIÓN PUEDE QUE SEA NECESARIO)
             // LOS SIGUIENTES 6 REPRESENTAN EL ORDEN DE LAS FILAS DEL TECLADO, LOS VALORS 5 Y 6 SON FILAS NULAS, UNDEFINED
             // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
             case "first":
                 // COMPORTAMIENTO POR DEFECTO
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
                 setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
                 break;
             case "last":
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
                 setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
                 break
             case "middle":
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
                 setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
                 break
             case "alternate":
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
                 setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
                 break;
         }
@@ -135,12 +114,9 @@ export const GuitarPage = () => {
     return (
         <>
             <NeckView neck={neck}
-                // keyboard={keyboard} 
                 handleNotePlayed={handleNotePlayed}
                 onPanelChange={onPanelChange}
                 getDynamicFretboardSimulation={getDynamicFretboardSimulation}
-            // handleKeyDownPlaySound={handleKeyDownPlaySound}
-            // keyfromkeyboard={keyfromkeyboard}
             />
             <div>
                 {panel}

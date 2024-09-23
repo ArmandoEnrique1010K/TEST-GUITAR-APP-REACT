@@ -1,17 +1,16 @@
 import PropType from "prop-types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope,
-    keyfromkeyboard,
-    // handleKeyDownPlaySound
-}) => {
-
+export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope, keyfromkeyboard, }) => {
 
     // UTILICE CHATGPT PARA INVESTIGAR ESO
     // Referenciar a un elemento HTML
     const audioRef = useRef(null);
     const gainNodeRef = useRef(null);
+
+    // Almacenar si el sonido está en reproducción
+    const [isPlaying, setIsPlaying] = useState(false);
 
     // Dirección del archivo de sonido
     const audioPath = `/sounds/guitar_1/${file}.mp3`;
@@ -26,33 +25,35 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
     // Función para reproducir sonido
     const playSound = () => {
         if (audioRef.current) {
+
+            if (isPlaying === true) {
+                // Si el sonido ya está reproduciéndose, primero detenlo si está en modo "ON"
+                if (modRope === "ON") {
+                    audioRef.current.stop();
+                    setIsPlaying(false);
+                }
+            }
             audioRef.current.start();
+            setIsPlaying(true);
             //     // console.log("reproduciendo el archivo " + file)
         }
-
-        // AL PULSAR UNA TECLA
-        // if (event.keyfromkeyboard){
-
-        // }
-        // setCurrentNote({ rope, chord });
 
         const modRopeNote = { r: null, c: null };
         handleNotePlayed(modRope, { rope, chord }, modRopeNote, audioRef);
     }
 
-
-    // INVESTIGAR ESO DEL CODIGO PARA PULSAR UNA TECLA Y REPRODUCIR LA NOTA
-    // const handleKeyDownPlaySound = (event) => {
-    //     if (event.key == keyfromkeyboard) {
-    //         console.log(`Tecla ${keyfromkeyboard} presionada`);
-    //         playSound()
-    //         // audioRef.current.start();
-    //     }
-    // }
     useEffect(() => {
         const handleKeyDownPlaySound = (event) => {
             if (event.key === keyfromkeyboard) {
                 console.log(`Tecla ${keyfromkeyboard} presionada`);
+
+                // Verificar el estado del botón ON/OFF antes de reproducir
+                if (modRope) {
+                    console.log("Modo ON activo");
+                } else {
+                    console.log("Modo OFF activo");
+                }
+
                 playSound();
             }
         };
@@ -63,7 +64,7 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
         return () => {
             window.removeEventListener("keydown", handleKeyDownPlaySound);
         };
-    }, [keyfromkeyboard]);
+    }, [keyfromkeyboard, modRope]);
 
 
 
