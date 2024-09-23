@@ -1,6 +1,7 @@
 import { keyboard } from "../data/keyboard";
 import { neck } from "../data/neck";
 
+// UTILICE CHATGPT PARA INVESTIGAR ESO
 export const getDynamicFretboardSimulation = (
   firstRope,
   secondRope,

@@ -3,15 +3,14 @@ import PropType from "prop-types";
 import { ChordView } from "./ChordView"
 import { useState } from "react";
 
-export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange }) => {
+export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange,
+    // handleKeyDownPlaySound, keyfromkeyboard 
+}) => {
 
-    // Estado para el volumen amplificado de la nota (EFECTO DE SONIDO)
+    // Estado para el volumen amplificado de la fila de notas (EFECTO DE SONIDO AMPLIFICADOR)
     const [volumenRope, setVolumenRope] = useState(1);
 
-    // Estado para el modo de cuerda: Normal o Silenciar al cambiar de cuerda
-    // NORMAL (OFF)
-    // SIGUIENTE (NEXT)
-    // ANTERIOR (PREV)
+    // Estado para el modo de cuerda: Silenciar al tocar una nota de una cuerda diferente o no silenciar
     const [modRope, setModRope] = useState("ON");
 
     // Función para el manejo del volumen amplificado
@@ -53,7 +52,9 @@ export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange }) => {
                     style={{ display: "flex", flexDirection: "row" }}
                 >
                     {
-                        frets.map(({ id, chord, file, key: keyfromkeyboard }) => (
+                        frets.map(({ id, chord, file,
+                            // Utilizar dos puntos para cambiar el nombre de la propiedad para que no haga conflicto con key
+                            key: keyfromkeyboard }) => (
                             <ChordView
                                 id={id}
                                 key={id}
@@ -64,6 +65,7 @@ export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange }) => {
                                 volumenRope={volumenRope}
                                 modRope={modRope}
                                 keyfromkeyboard={keyfromkeyboard}
+                            // handleKeyDownPlaySound={handleKeyDownPlaySound}
                             />
                         ))
                     }
@@ -77,4 +79,5 @@ RopeView.propTypes = {
     rope: PropType.number,
     frets: PropType.array,
     handleNotePlayed: PropType.func,
+    onPanelChange: PropType.func
 }

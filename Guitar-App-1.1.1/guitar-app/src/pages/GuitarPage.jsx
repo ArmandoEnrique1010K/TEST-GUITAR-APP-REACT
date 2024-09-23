@@ -2,18 +2,19 @@ import { useRef, useState } from "react"
 import { NeckView } from "../components/NeckView"
 import { useEffect } from "react";
 import { ControlsView } from "../components/ControlsView";
-import { getKeyboard } from "../services/getKeyboard";
+// import { getKeyboard } from "../services/getKeyboard";
 import { getDynamicFretboardSimulation } from "../services/getDynamicFretboardSimulation";
 
 export const GuitarPage = () => {
 
-    // ESTADO PARA EL PANEL DE LA GUITARRA (PANTALLA DE CONFIGURACION)
+    // Estado para el panel de la guitarra (muestra las configuraciones aplicadas)
     const [panel, setPanel] = useState("Bienvenido a GuitarApp");
+
     // Estado para el mástil de la guitarra, 
     const [neck, setNeck] = useState([]);
 
-    // ESTADO PARA LAS TECLAS
-    const [keyboard, setKeyboard] = useState([]);
+    // Estado para el teclado
+    // const [keyboard, setKeyboard] = useState([]);
 
     // Estado para almacenar la nota anterior reproducida
     const [previousNote, setpreviousNote] = useState({
@@ -96,9 +97,9 @@ export const GuitarPage = () => {
     }, [previousNote])
 
     // CARGAR LAS TECLAS ASIGNADAS
-    useEffect(() => {
-        setKeyboard(getKeyboard);
-    }, [])
+    // useEffect(() => {
+    //     setKeyboard(getKeyboard);
+    // }, [])
 
 
     const [typeAssignKeys, setTypeAssignKeys] = useState("first");
@@ -112,7 +113,7 @@ export const GuitarPage = () => {
             // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
             case "first":
                 // COMPORTAMIENTO POR DEFECTO
-                console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
+                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
                 setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
                 break;
             case "last":
@@ -130,9 +131,17 @@ export const GuitarPage = () => {
         }
     }
 
+
     return (
         <>
-            <NeckView neck={neck} keyboard={keyboard} handleNotePlayed={handleNotePlayed} onPanelChange={onPanelChange} getDynamicFretboardSimulation={getDynamicFretboardSimulation} />
+            <NeckView neck={neck}
+                // keyboard={keyboard} 
+                handleNotePlayed={handleNotePlayed}
+                onPanelChange={onPanelChange}
+                getDynamicFretboardSimulation={getDynamicFretboardSimulation}
+            // handleKeyDownPlaySound={handleKeyDownPlaySound}
+            // keyfromkeyboard={keyfromkeyboard}
+            />
             <div>
                 {panel}
             </div>
