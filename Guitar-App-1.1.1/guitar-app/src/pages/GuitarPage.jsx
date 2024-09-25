@@ -51,6 +51,7 @@ export const GuitarPage = () => {
             }
 
             previousAudioRef.current = currentAudioRef.current;
+            // previousNote.current = currentNote;  // Actualizar la referencia inmediata
             setpreviousNote(currentNote);
 
         }
@@ -73,6 +74,7 @@ export const GuitarPage = () => {
             }
 
             modRopePreviousAudioRef.current = currentAudioRef.current;
+            // modRopePreviousNote.current = modRopeCurrentNote;  // Actualizar la referencia inmediata
             setModRopePreviousNote(modRopeCurrentNote);
         }
 
@@ -117,6 +119,7 @@ export const GuitarPage = () => {
                 handleNotePlayed={handleNotePlayed}
                 onPanelChange={onPanelChange}
                 getDynamicFretboardSimulation={getDynamicFretboardSimulation}
+
             />
             <div>
                 {panel}

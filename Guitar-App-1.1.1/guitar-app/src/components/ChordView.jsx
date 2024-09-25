@@ -33,6 +33,7 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
     }
     // CHATGPT AYUDAME
 
+
     useEffect(() => {
         const handleKeyDownPlaySound = (event) => {
             if (event.key === keyfromkeyboard) {
