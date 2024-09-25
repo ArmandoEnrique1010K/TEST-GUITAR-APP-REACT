@@ -1,5 +1,5 @@
 import PropType from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
 export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope, keyfromkeyboard, }) => {
@@ -10,7 +10,7 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
     const gainNodeRef = useRef(null);
 
     // Almacenar si el sonido está en reproducción
-    const [isPlaying, setIsPlaying] = useState(false);
+    // const [isPlaying, setIsPlaying] = useState(false);
 
     // Dirección del archivo de sonido
     const audioPath = `/sounds/guitar_1/${file}.mp3`;
@@ -25,46 +25,32 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
     // Función para reproducir sonido
     const playSound = () => {
         if (audioRef.current) {
-
-            if (isPlaying === true) {
-                // Si el sonido ya está reproduciéndose, primero detenlo si está en modo "ON"
-                if (modRope === "ON") {
-                    audioRef.current.stop();
-                    setIsPlaying(false);
-                }
-            }
             audioRef.current.start();
-            setIsPlaying(true);
-            //     // console.log("reproduciendo el archivo " + file)
         }
 
-        const modRopeNote = { r: null, c: null };
+        const modRopeNote = { r: rope, c: chord };
         handleNotePlayed(modRope, { rope, chord }, modRopeNote, audioRef);
     }
+    // CHATGPT AYUDAME
 
     useEffect(() => {
         const handleKeyDownPlaySound = (event) => {
             if (event.key === keyfromkeyboard) {
                 console.log(`Tecla ${keyfromkeyboard} presionada`);
-
-                // Verificar el estado del botón ON/OFF antes de reproducir
-                if (modRope) {
-                    console.log("Modo ON activo");
-                } else {
-                    console.log("Modo OFF activo");
+                if (audioRef.current) {
+                    audioRef.current.start();
                 }
-
-                playSound();
+                const modRopeNote = { r: rope, c: chord };
+                handleNotePlayed(modRope, { rope, chord }, modRopeNote, audioRef);
             }
         };
 
-        // CHATGPT AYUDAME
         window.addEventListener("keydown", handleKeyDownPlaySound);
 
         return () => {
             window.removeEventListener("keydown", handleKeyDownPlaySound);
         };
-    }, [keyfromkeyboard, modRope]);
+    }, [keyfromkeyboard]);
 
 
 
@@ -73,9 +59,7 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
             <button
                 type="button"
                 onClick={playSound}
-            // onKeyDown={handleKeyDownPlaySound}
             >
-                {/*Muestra la tecla asignada a la nota si esta definido*/}
                 Play {rope} - {chord} / {id} / {keyfromkeyboard == undefined ? "" : `/ Tecla: ${keyfromkeyboard}`}
             </button>
         </>

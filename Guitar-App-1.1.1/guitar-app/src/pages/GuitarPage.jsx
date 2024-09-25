@@ -38,7 +38,7 @@ export const GuitarPage = () => {
 
     // Función para manejar la reproducción de una nota y detener la anterior si es necesario
     const handleNotePlayed = (statusModRope, currentNote, modRopeCurrentNote, currentAudioRef) => {
-        if (statusModRope == "OFF") {
+        if (statusModRope === "OFF") {
             // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
             if (previousNote.rope === currentNote.rope && previousAudioRef.current) {
                 previousAudioRef.current.stop();
@@ -55,7 +55,7 @@ export const GuitarPage = () => {
 
         }
 
-        if (statusModRope == "ON") {
+        if (statusModRope === "ON") {
             // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
             if (previousNote.rope === currentNote.rope && previousNote.chord === currentNote.chord) {
                 previousAudioRef.current.stop();
