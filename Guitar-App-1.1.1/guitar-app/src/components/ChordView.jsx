@@ -2,7 +2,7 @@ import PropType from "prop-types";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope, keyfromkeyboard, }) => {
+export const ChordView = ({ id, chord, file, /*handleNotePlayed,*/ handleRopeOnNotePlayed, handleRopeOffNotePlayed, rope, volumenRope, modRope, keyfromkeyboard, }) => {
 
     // UTILICE CHATGPT PARA INVESTIGAR ESO
     // Referenciar a un elemento HTML
@@ -28,8 +28,13 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
             audioRef.current.start();
         }
 
-        const modRopeNote = { r: rope, c: chord };
-        handleNotePlayed(modRope, { rope, chord }, modRopeNote, audioRef);
+        //const modRopeNote = { r: rope, c: chord };
+        if (modRope === "ON") {
+            handleRopeOnNotePlayed({ rope, chord }, audioRef);
+        } else {
+            handleRopeOffNotePlayed({ rope, chord }, audioRef);
+        }
+        // handleNotePlayed(modRope, { rope, chord }, /*modRopeNote,*/ audioRef);
     }
     // CHATGPT AYUDAME
 
@@ -38,11 +43,12 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
         const handleKeyDownPlaySound = (event) => {
             if (event.key === keyfromkeyboard) {
                 console.log(`Tecla ${keyfromkeyboard} presionada`);
-                if (audioRef.current) {
-                    audioRef.current.start();
-                }
-                const modRopeNote = { r: rope, c: chord };
-                handleNotePlayed(modRope, { rope, chord }, modRopeNote, audioRef);
+                // if (audioRef.current) {
+                //     audioRef.current.start();
+                // }
+                //const modRopeNote = { r: rope, c: chord };
+                // handleNotePlayed(modRope, { rope, chord }, /*modRopeNote, */audioRef);
+                playSound();
             }
         };
 
@@ -60,6 +66,7 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
             <button
                 type="button"
                 onClick={playSound}
+            // onKeyDown={handleKeyDownPlaySound}
             >
                 Play {rope} - {chord} / {id} / {keyfromkeyboard == undefined ? "" : `/ Tecla: ${keyfromkeyboard}`}
             </button>

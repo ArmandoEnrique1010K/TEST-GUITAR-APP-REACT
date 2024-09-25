@@ -12,14 +12,14 @@ export const GuitarPage = () => {
     // Estado para el mástil de la guitarra, 
     const [neck, setNeck] = useState([]);
 
-    // Estado para almacenar la nota anterior reproducida
-    const [previousNote, setpreviousNote] = useState({
+    // Estado para almacenar la nota reproducida en una cuerda en modo OFF
+    const [noteInRopeOff, setNoteInRopeOff] = useState({
         rope: null,
         chord: null,
     })
 
-    // Esto para almacenar la nota anterior reproducida en una cuerda en modo OFF
-    const [modRopePreviousNote, setModRopePreviousNote] = useState({
+    // Estado para almacenar la nota reproducida en una cuerda en modo ON
+    const [noteInRopeOn, setNoteInRopeOn] = useState({
         rope: null,
         chord: null,
     })
@@ -28,8 +28,10 @@ export const GuitarPage = () => {
     const [typeAssignKeys, setTypeAssignKeys] = useState("first");
 
     // Referencia al elemento de audio de la nota previamente reproducida
-    const previousAudioRef = useRef(null);
-    const modRopePreviousAudioRef = useRef(null);
+    // const previousAudioRef = useRef(null);
+    // const modRopePreviousAudioRef = useRef(null);
+    const noteOffAudioRef = useRef(null);
+    const noteOnAudioRef = useRef(null);
 
     // Cargar los datos del mástil de la guitarra cuando la página se monta
     useEffect(() => {
@@ -37,51 +39,78 @@ export const GuitarPage = () => {
     }, [])
 
     // Función para manejar la reproducción de una nota y detener la anterior si es necesario
-    const handleNotePlayed = (statusModRope, currentNote, modRopeCurrentNote, currentAudioRef) => {
-        if (statusModRope === "OFF") {
-            // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
-            if (previousNote.rope === currentNote.rope && previousAudioRef.current) {
-                previousAudioRef.current.stop();
-                previousAudioRef.current.seek(0);
-            }
-
-            // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
-            if (previousNote.rope === currentNote.rope && previousNote.chord === currentNote.chord) {
-                previousAudioRef.current.stop();
-            }
-
-            previousAudioRef.current = currentAudioRef.current;
-            // previousNote.current = currentNote;  // Actualizar la referencia inmediata
-            setpreviousNote(currentNote);
-
+    const handleRopeOffNotePlayed = (/*statusModRope,*/ currentNote, currentAudioRef) => {
+        // if (statusModRope === "OFF") {
+        // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
+        if (noteInRopeOff.rope === currentNote.rope && noteOffAudioRef.current) {
+            noteOffAudioRef.current.stop();
+            noteOffAudioRef.current.seek(0);
         }
 
-        if (statusModRope === "ON") {
-            // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
-            if (previousNote.rope === currentNote.rope && previousNote.chord === currentNote.chord) {
-                previousAudioRef.current.stop();
-            }
-
-            // Silenciar la nota anterior solo si está en una cuerda diferente
-            if (modRopePreviousNote.rope !== modRopeCurrentNote.rope && modRopePreviousAudioRef.current) {
-                modRopePreviousAudioRef.current.stop();
-                modRopePreviousAudioRef.current.seek(0);
-            }
-
-            // Si la nota es la misma, reinicia la reproducción
-            if (modRopePreviousNote.rope === modRopeCurrentNote.rope && modRopePreviousNote.chord === modRopeCurrentNote.chord) {
-                modRopePreviousAudioRef.current.stop();
-            }
-
-            modRopePreviousAudioRef.current = currentAudioRef.current;
-            // modRopePreviousNote.current = modRopeCurrentNote;  // Actualizar la referencia inmediata
-            setModRopePreviousNote(modRopeCurrentNote);
+        // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
+        if (noteInRopeOff.rope === currentNote.rope && noteInRopeOff.chord === currentNote.chord) {
+            noteOffAudioRef.current.stop();
         }
 
-        // Imprimir la información sobre la nota anterior y la actual
-        console.log(`La nota anterior fue ${previousNote.rope} : ${previousNote.chord}`);
-        console.log(`La nota actual es: ${currentNote.rope} : ${currentNote.chord}`);
+        noteOffAudioRef.current = currentAudioRef.current;
+        // previousNote.current = currentNote;  // Actualizar la referencia inmediata
+        setNoteInRopeOff(currentNote);
+        console.log(`La nota en modo OFF fue ${noteInRopeOff.rope} : ${noteInRopeOff.chord}`);
+        console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
+
     }
+
+    // if (statusModRope === "ON") {
+    //     // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
+    //     if (noteInRopeOff.rope === currentNote.rope && noteInRopeOff.chord === currentNote.chord) {
+    //         noteOffAudioRef.current.stop();
+    //     }
+
+    //     // Silenciar la nota anterior solo si está en una cuerda diferente
+    //     if (noteInRopeOn.rope !== currentNote.rope && noteOnAudioRef.current) {
+    //         noteOnAudioRef.current.stop();
+    //         noteOnAudioRef.current.seek(0);
+    //     }
+
+    //     // Si la nota es la misma, reinicia la reproducción
+    //     if (noteInRopeOn.rope === currentNote.rope && noteInRopeOn.chord === currentNote.chord) {
+    //         noteOnAudioRef.current.stop();
+    //     }
+
+    //     noteOnAudioRef.current = currentAudioRef.current;
+    //     // modRopePreviousNote.current = modRopeCurrentNote;  // Actualizar la referencia inmediata
+    //     setNoteInRopeOn(currentNote);
+    // }
+
+    // Imprimir la información sobre la nota anterior y la actual
+
+    const handleRopeOnNotePlayed = (currentNote, currentAudioRef) => {
+        // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
+        if (noteInRopeOff.rope === currentNote.rope && noteInRopeOff.chord === currentNote.chord) {
+            noteOffAudioRef.current.stop();
+        }
+
+        // Silenciar la nota anterior solo si está en una cuerda diferente
+        if (noteInRopeOn.rope !== currentNote.rope && noteOnAudioRef.current) {
+            noteOnAudioRef.current.stop();
+            noteOnAudioRef.current.seek(0);
+        }
+
+        // Si la nota es la misma, reinicia la reproducción
+        if (noteInRopeOn.rope === currentNote.rope && noteInRopeOn.chord === currentNote.chord) {
+            noteOnAudioRef.current.stop();
+        }
+
+        noteOnAudioRef.current = currentAudioRef.current;
+        // modRopePreviousNote.current = modRopeCurrentNote;  // Actualizar la referencia inmediata
+        setNoteInRopeOn(currentNote);
+        console.log(`La nota en modo ON fue ${noteInRopeOn.rope} : ${noteInRopeOn.chord}`);
+        console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
+
+
+    }
+
+
 
     // Establecer un mensaje de configuracion en el panel
     const onPanelChange = (message) => {
@@ -116,7 +145,9 @@ export const GuitarPage = () => {
     return (
         <>
             <NeckView neck={neck}
-                handleNotePlayed={handleNotePlayed}
+                // handleNotePlayed={handleNotePlayed}
+                handleRopeOffNotePlayed={handleRopeOffNotePlayed}
+                handleRopeOnNotePlayed={handleRopeOnNotePlayed}
                 onPanelChange={onPanelChange}
                 getDynamicFretboardSimulation={getDynamicFretboardSimulation}
 

@@ -3,7 +3,7 @@ import PropType from "prop-types";
 import { ChordView } from "./ChordView"
 import { useState } from "react";
 
-export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange,
+export const RopeView = ({ rope, frets, /*handleNotePlayed,*/ onPanelChange, handleRopeOffNotePlayed, handleRopeOnNotePlayed
     // handleKeyDownPlaySound, keyfromkeyboard 
 }) => {
 
@@ -62,7 +62,9 @@ export const RopeView = ({ rope, frets, handleNotePlayed, onPanelChange,
                                 chord={chord}
                                 file={file}
                                 rope={rope}
-                                handleNotePlayed={handleNotePlayed}
+                                // handleNotePlayed={handleNotePlayed}
+                                handleRopeOffNotePlayed={handleRopeOffNotePlayed}
+                                handleRopeOnNotePlayed={handleRopeOnNotePlayed}
                                 volumenRope={volumenRope}
                                 modRope={modRope}
                                 keyfromkeyboard={keyfromkeyboard}
