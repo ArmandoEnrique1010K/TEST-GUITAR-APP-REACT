@@ -14,7 +14,7 @@ Pendiente:
 
 ESTE ES EL AVANCE:
 
-<img title="" src="file:///C:/Users/USER/Desktop/ArmandoEnrique1010K/TEST-GUITAR-APP-REACT/assets/2024-09-26-00-24-16-image.png" alt="2024-09-26-00-24-16-image.png" data-align="center" width="834">
+<img title="" src="assets/2024-09-26-00-24-16-image.png" alt="2024-09-26-00-24-16-image.png" data-align="center" width="834">
 
 DISEÑO PROPUESTO:
 
