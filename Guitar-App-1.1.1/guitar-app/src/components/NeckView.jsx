@@ -2,7 +2,7 @@ import PropType from "prop-types";
 
 import { RopeView } from "./RopeView"
 
-export const NeckView = ({ neck, /*handleNotePlayed, */onPanelChange, handleRopeOffNotePlayed, handleRopeOnNotePlayed }) => {
+export const NeckView = ({ neck, /*handleNotePlayed, */onPanelChange, handleRopeOffNotePlayed, handleRopeOnNotePlayed, typeAssignKeys }) => {
     return (
         <>
             <div>
@@ -17,6 +17,7 @@ export const NeckView = ({ neck, /*handleNotePlayed, */onPanelChange, handleRope
                             handleRopeOffNotePlayed={handleRopeOffNotePlayed}
                             handleRopeOnNotePlayed={handleRopeOnNotePlayed}
                             onPanelChange={onPanelChange}
+                            typeAssignKeys={typeAssignKeys}
                         />
                     ))
                 }
@@ -27,6 +28,7 @@ export const NeckView = ({ neck, /*handleNotePlayed, */onPanelChange, handleRope
 
 NeckView.propTypes = {
     neck: PropType.array,
-    handleNotePlayed: PropType.func,
+    handleRopeOffNotePlayed: PropType.func,
+    handleRopeOnNotePlayed: PropType.func,
     onPanelChange: PropType.func
 }

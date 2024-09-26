@@ -1,3 +1,4 @@
+// TECLAS ASIGNADAS PARA UN TECLADO QWERTY
 export const keyboard = [
   {
     row: 1,

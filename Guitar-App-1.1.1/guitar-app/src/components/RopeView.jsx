@@ -3,7 +3,7 @@ import PropType from "prop-types";
 import { ChordView } from "./ChordView"
 import { useState } from "react";
 
-export const RopeView = ({ rope, frets, /*handleNotePlayed,*/ onPanelChange, handleRopeOffNotePlayed, handleRopeOnNotePlayed
+export const RopeView = ({ rope, frets, /*handleNotePlayed,*/ handleRopeOffNotePlayed, handleRopeOnNotePlayed, onPanelChange, typeAssignKeys
     // handleKeyDownPlaySound, keyfromkeyboard 
 }) => {
 
@@ -57,8 +57,8 @@ export const RopeView = ({ rope, frets, /*handleNotePlayed,*/ onPanelChange, han
                         // Utilizar dos puntos para cambiar el nombre de la propiedad para que no haga conflicto con key
                         frets.map(({ id, chord, file, key: keyfromkeyboard }) => (
                             <ChordView
-                                id={id}
                                 key={id}
+                                id={id}
                                 chord={chord}
                                 file={file}
                                 rope={rope}
@@ -68,6 +68,7 @@ export const RopeView = ({ rope, frets, /*handleNotePlayed,*/ onPanelChange, han
                                 volumenRope={volumenRope}
                                 modRope={modRope}
                                 keyfromkeyboard={keyfromkeyboard}
+                                typeAssignKeys={typeAssignKeys}
                             />
                         ))
                     }

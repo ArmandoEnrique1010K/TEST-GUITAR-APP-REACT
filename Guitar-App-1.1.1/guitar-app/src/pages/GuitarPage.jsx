@@ -23,23 +23,50 @@ export const GuitarPage = () => {
         rope: null,
         chord: null,
     })
-
-    // Estado para el tipo de asignación de teclas por cada nota de la guitarra
-    const [typeAssignKeys, setTypeAssignKeys] = useState("first");
-
     // Referencia al elemento de audio de la nota previamente reproducida
     // const previousAudioRef = useRef(null);
     // const modRopePreviousAudioRef = useRef(null);
     const noteOffAudioRef = useRef(null);
     const noteOnAudioRef = useRef(null);
 
-    // Cargar los datos del mástil de la guitarra cuando la página se monta
-    useEffect(() => {
-        setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
-    }, [])
+    // Estado para el tipo de asignación de teclas por cada nota de la guitarra
+    const [typeAssignKeys, setTypeAssignKeys] = useState("");
+
+
+    // Función para establecer las teclas por cada nota de la guitarra
+    const onTypeAssignKeys = (typeAssignKeys) => {
+        setTypeAssignKeys(typeAssignKeys);
+        onPanelChange(`Se ha configurado las teclas en modo ${typeAssignKeys}`)
+        switch (typeAssignKeys) {
+            // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA (SE PUEDE ELIMINAR, PERO EN OTRA SITUACIÓN PUEDE QUE SEA NECESARIO)
+            // LOS SIGUIENTES 6 REPRESENTAN EL ORDEN DE LAS FILAS DEL TECLADO, LOS VALORS 5 Y 6 SON FILAS NULAS, UNDEFINED
+            // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
+            case "first":
+                // COMPORTAMIENTO POR DEFECTO
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
+                break;
+            case "last":
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
+                break
+            case "middle":
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
+                break
+            case "alternate":
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
+                break;
+        }
+    }
+    // Establecer un mensaje de configuracion en el panel
+    const onPanelChange = (message) => {
+        setPanel(message);
+    };
+
+
 
     // Función para manejar la reproducción de una nota y detener la anterior si es necesario
-    const handleRopeOffNotePlayed = (/*statusModRope,*/ currentNote, currentAudioRef) => {
+    const handleRopeOffNotePlayed = async (currentNote, currentAudioRef) => {
+
+        //await Tone.start();
         // if (statusModRope === "OFF") {
         // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
         if (noteInRopeOff.rope === currentNote.rope && noteOffAudioRef.current) {
@@ -55,8 +82,13 @@ export const GuitarPage = () => {
         noteOffAudioRef.current = currentAudioRef.current;
         // previousNote.current = currentNote;  // Actualizar la referencia inmediata
         setNoteInRopeOff(currentNote);
-        console.log(`La nota en modo OFF fue ${noteInRopeOff.rope} : ${noteInRopeOff.chord}`);
-        console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
+        // console.log(`La nota en modo OFF fue ${noteInRopeOff.rope} : ${noteInRopeOff.chord}`);
+        // console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
+        if (currentNote.rope !== null && currentNote.chord !== null) {
+            console.log(`La nota en modo OFF fue ${currentNote.rope} : ${currentNote.chord}`);
+        } else {
+            console.log("Error: nota en modo OFF fue null");
+        }
 
     }
 
@@ -84,7 +116,8 @@ export const GuitarPage = () => {
 
     // Imprimir la información sobre la nota anterior y la actual
 
-    const handleRopeOnNotePlayed = (currentNote, currentAudioRef) => {
+    const handleRopeOnNotePlayed = async (currentNote, currentAudioRef) => {
+        //await Tone.start();
         // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
         if (noteInRopeOff.rope === currentNote.rope && noteInRopeOff.chord === currentNote.chord) {
             noteOffAudioRef.current.stop();
@@ -104,42 +137,21 @@ export const GuitarPage = () => {
         noteOnAudioRef.current = currentAudioRef.current;
         // modRopePreviousNote.current = modRopeCurrentNote;  // Actualizar la referencia inmediata
         setNoteInRopeOn(currentNote);
-        console.log(`La nota en modo ON fue ${noteInRopeOn.rope} : ${noteInRopeOn.chord}`);
-        console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
-
-
-    }
-
-
-
-    // Establecer un mensaje de configuracion en el panel
-    const onPanelChange = (message) => {
-        setPanel(message);
-    };
-
-    // Función para establecer las teclas por cada nota de la guitarra
-    const onTypeAssignKeys = (value) => {
-        setTypeAssignKeys(value);
-        onPanelChange(`Se ha configurado las teclas en modo ${value}`)
-        switch (value) {
-            // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA (SE PUEDE ELIMINAR, PERO EN OTRA SITUACIÓN PUEDE QUE SEA NECESARIO)
-            // LOS SIGUIENTES 6 REPRESENTAN EL ORDEN DE LAS FILAS DEL TECLADO, LOS VALORS 5 Y 6 SON FILAS NULAS, UNDEFINED
-            // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
-            case "first":
-                // COMPORTAMIENTO POR DEFECTO
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
-                break;
-            case "last":
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
-                break
-            case "middle":
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
-                break
-            case "alternate":
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
-                break;
+        // console.log(`La nota en modo ON fue ${noteInRopeOn.rope} : ${noteInRopeOn.chord}`);
+        // console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
+        if (currentNote.rope !== null && currentNote.chord !== null) {
+            console.log(`La nota en modo ON fue ${currentNote.rope} : ${currentNote.chord}`);
+        } else {
+            console.log("Error: nota en modo ON fue null");
         }
+
     }
+
+
+    // Cargar los datos del mástil de la guitarra cuando la página se monta
+    useEffect(() => {
+        setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
+    }, [])
 
 
     return (
@@ -149,7 +161,7 @@ export const GuitarPage = () => {
                 handleRopeOffNotePlayed={handleRopeOffNotePlayed}
                 handleRopeOnNotePlayed={handleRopeOnNotePlayed}
                 onPanelChange={onPanelChange}
-                getDynamicFretboardSimulation={getDynamicFretboardSimulation}
+                typeAssignKeys={typeAssignKeys}
 
             />
             <div>

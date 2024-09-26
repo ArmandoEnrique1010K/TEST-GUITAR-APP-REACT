@@ -2,7 +2,7 @@ import PropType from "prop-types";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ id, chord, file, /*handleNotePlayed,*/ handleRopeOnNotePlayed, handleRopeOffNotePlayed, rope, volumenRope, modRope, keyfromkeyboard, }) => {
+export const ChordView = ({ id, chord, file, rope, handleRopeOffNotePlayed, handleRopeOnNotePlayed, volumenRope, modRope, keyfromkeyboard, typeAssignKeys }) => {
 
     // UTILICE CHATGPT PARA INVESTIGAR ESO
     // Referenciar a un elemento HTML
@@ -23,19 +23,31 @@ export const ChordView = ({ id, chord, file, /*handleNotePlayed,*/ handleRopeOnN
 
 
     // Función para reproducir sonido
-    const playSound = () => {
+    const playSoundNoteOn = () => {
         if (audioRef.current) {
             audioRef.current.start();
         }
+        // Verificar valores antes de ejecutar la lógica de modo ON/OFF
+        // console.log(`Rope: ${rope}, Chord: ${chord}, Mode: ${modRope}`);
 
-        //const modRopeNote = { r: rope, c: chord };
-        if (modRope === "ON") {
-            handleRopeOnNotePlayed({ rope, chord }, audioRef);
-        } else {
-            handleRopeOffNotePlayed({ rope, chord }, audioRef);
-        }
-        // handleNotePlayed(modRope, { rope, chord }, /*modRopeNote,*/ audioRef);
+        handleRopeOnNotePlayed({ rope, chord }, audioRef);
     }
+
+    // Función para reproducir sonido 2
+    const playSoundNoteOff = () => {
+        if (audioRef.current) {
+            audioRef.current.start();
+        }
+        // Verificar valores antes de ejecutar la lógica de modo ON/OFF
+        // console.log(`Rope: ${rope}, Chord: ${chord}, Mode: ${modRope}`);
+
+        // if (modRope === "ON") {
+        //     handleRopeOnNotePlayed({ rope, chord }, audioRef);
+        // } else {
+        handleRopeOffNotePlayed({ rope, chord }, audioRef);
+
+    }
+
     // CHATGPT AYUDAME
 
 
@@ -43,12 +55,11 @@ export const ChordView = ({ id, chord, file, /*handleNotePlayed,*/ handleRopeOnN
         const handleKeyDownPlaySound = (event) => {
             if (event.key === keyfromkeyboard) {
                 console.log(`Tecla ${keyfromkeyboard} presionada`);
-                // if (audioRef.current) {
-                //     audioRef.current.start();
-                // }
-                //const modRopeNote = { r: rope, c: chord };
-                // handleNotePlayed(modRope, { rope, chord }, /*modRopeNote, */audioRef);
-                playSound();
+                if (modRope === "OFF") {
+                    playSoundNoteOff();
+                } else {
+                    playSoundNoteOn();
+                }
             }
         };
 
@@ -57,7 +68,7 @@ export const ChordView = ({ id, chord, file, /*handleNotePlayed,*/ handleRopeOnN
         return () => {
             window.removeEventListener("keydown", handleKeyDownPlaySound);
         };
-    }, [keyfromkeyboard]);
+    }, [keyfromkeyboard, typeAssignKeys]);
 
 
 
@@ -65,7 +76,7 @@ export const ChordView = ({ id, chord, file, /*handleNotePlayed,*/ handleRopeOnN
         <>
             <button
                 type="button"
-                onClick={playSound}
+                onClick={modRope === "ON" ? playSoundNoteOn : playSoundNoteOff}
             // onKeyDown={handleKeyDownPlaySound}
             >
                 Play {rope} - {chord} / {id} / {keyfromkeyboard == undefined ? "" : `/ Tecla: ${keyfromkeyboard}`}
@@ -78,7 +89,8 @@ ChordView.propTypes = {
     id: PropType.number,
     chord: PropType.number,
     file: PropType.string,
-    handleNotePlayed: PropType.func,
+    handleRopeOffNotePlayed: PropType.func,
+    handleRopeOnNotePlayed: PropType.func,
     rope: PropType.number,
     volumenRope: PropType.number,
     modRope: PropType.string,
