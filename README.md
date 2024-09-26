@@ -14,7 +14,7 @@ Pendiente:
 
 ESTE ES EL AVANCE:
 
-![](assets/2024-09-22-17-24-48-image.png)
+<img src="assets/2024-09-26-00-24-16-image.png" title="" alt="" data-align="center">
 
 DISEÑO PROPUESTO:
 
