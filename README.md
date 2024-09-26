@@ -14,8 +14,14 @@ Pendiente:
 
 ESTE ES EL AVANCE:
 
-<img src="assets/2024-09-26-00-24-16-image.png" title="" alt="" data-align="center">
+<img title="" src="file:///C:/Users/USER/Desktop/ArmandoEnrique1010K/TEST-GUITAR-APP-REACT/assets/2024-09-26-00-24-16-image.png" alt="2024-09-26-00-24-16-image.png" data-align="center" width="834">
 
 DISEÑO PROPUESTO:
 
 ![](assets/2024-09-21-19-39-01-image.png)
+
+BUGS:
+
+- Al tocar una cuerda con el teclado del PC o Laptop, asegurate de desactivar la tecla MAYUS
+
+- Al intentar tocar una cuerda con el teclado en modo OFF, no va a funcionar, trata de tocar una cuerda diferente y luego volver a pulsar el boton OFF para activar el modo ON y luego pulsalo para activar el modo OFF, solamente asi funcionara.
