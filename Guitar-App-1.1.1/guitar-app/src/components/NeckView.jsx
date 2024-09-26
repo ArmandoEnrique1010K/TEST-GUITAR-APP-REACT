@@ -2,28 +2,22 @@ import PropType from "prop-types";
 
 import { RopeView } from "./RopeView"
 
-export const NeckView = ({ neck, handleNotePlayed,
-    // keyboard, 
-    onPanelChange,
-    // keyfromkeyboard, handleKeyDownPlaySound 
-
-}) => {
-
-
+export const NeckView = ({ neck, /*handleNotePlayed, */onPanelChange, handleRopeOffNotePlayed, handleRopeOnNotePlayed, typeAssignKeys }) => {
     return (
         <>
-            <p>Este es el mastil de la guitarra</p>
             <div>
                 {
+                    // El mastil de la guitarra
                     neck.map(({ rope, frets }) => (
                         <RopeView
                             key={rope}
                             rope={rope}
                             frets={frets}
-                            handleNotePlayed={handleNotePlayed}
+                            // handleNotePlayed={handleNotePlayed}
+                            handleRopeOffNotePlayed={handleRopeOffNotePlayed}
+                            handleRopeOnNotePlayed={handleRopeOnNotePlayed}
                             onPanelChange={onPanelChange}
-                        // handleKeyDownPlaySound={handleKeyDownPlaySound}
-                        // keyfromkeyboard={keyfromkeyboard}
+                            typeAssignKeys={typeAssignKeys}
                         />
                     ))
                 }
@@ -34,6 +28,7 @@ export const NeckView = ({ neck, handleNotePlayed,
 
 NeckView.propTypes = {
     neck: PropType.array,
-    handleNotePlayed: PropType.func,
+    handleRopeOffNotePlayed: PropType.func,
+    handleRopeOnNotePlayed: PropType.func,
     onPanelChange: PropType.func
 }

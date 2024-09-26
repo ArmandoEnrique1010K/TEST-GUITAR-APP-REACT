@@ -2,16 +2,15 @@ import PropType from "prop-types";
 import { useEffect, useRef } from "react";
 import * as Tone from "tone";
 
-export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope, modRope,
-    keyfromkeyboard,
-    // handleKeyDownPlaySound
-}) => {
-
+export const ChordView = ({ id, chord, file, rope, handleRopeOffNotePlayed, handleRopeOnNotePlayed, volumenRope, modRope, keyfromkeyboard, typeAssignKeys }) => {
 
     // UTILICE CHATGPT PARA INVESTIGAR ESO
     // Referenciar a un elemento HTML
     const audioRef = useRef(null);
     const gainNodeRef = useRef(null);
+
+    // Almacenar si el sonido está en reproducción
+    // const [isPlaying, setIsPlaying] = useState(false);
 
     // Dirección del archivo de sonido
     const audioPath = `/sounds/guitar_1/${file}.mp3`;
@@ -24,57 +23,63 @@ export const ChordView = ({ id, chord, file, handleNotePlayed, rope, volumenRope
 
 
     // Función para reproducir sonido
-    const playSound = () => {
+    const playSoundNoteOn = () => {
         if (audioRef.current) {
             audioRef.current.start();
-            //     // console.log("reproduciendo el archivo " + file)
         }
+        // Verificar valores antes de ejecutar la lógica de modo ON/OFF
+        // console.log(`Rope: ${rope}, Chord: ${chord}, Mode: ${modRope}`);
 
-        // AL PULSAR UNA TECLA
-        // if (event.keyfromkeyboard){
+        handleRopeOnNotePlayed({ rope, chord }, audioRef);
+    }
 
-        // }
-        // setCurrentNote({ rope, chord });
+    // Función para reproducir sonido 2
+    const playSoundNoteOff = () => {
+        if (audioRef.current) {
+            audioRef.current.start();
+        }
+        // Verificar valores antes de ejecutar la lógica de modo ON/OFF
+        // console.log(`Rope: ${rope}, Chord: ${chord}, Mode: ${modRope}`);
 
-        const modRopeNote = { r: null, c: null };
-        handleNotePlayed(modRope, { rope, chord }, modRopeNote, audioRef);
+        // if (modRope === "ON") {
+        //     handleRopeOnNotePlayed({ rope, chord }, audioRef);
+        // } else {
+        handleRopeOffNotePlayed({ rope, chord }, audioRef);
+
     }
 
 
-    // INVESTIGAR ESO DEL CODIGO PARA PULSAR UNA TECLA Y REPRODUCIR LA NOTA
-    // const handleKeyDownPlaySound = (event) => {
-    //     if (event.key == keyfromkeyboard) {
-    //         console.log(`Tecla ${keyfromkeyboard} presionada`);
-    //         playSound()
-    //         // audioRef.current.start();
-    //     }
-    // }
+    // CHATGPT AYUDAME
+
     useEffect(() => {
         const handleKeyDownPlaySound = (event) => {
             if (event.key === keyfromkeyboard) {
                 console.log(`Tecla ${keyfromkeyboard} presionada`);
-                playSound();
+                if (modRope === "OFF") {
+                    playSoundNoteOff();
+                } else {
+                    playSoundNoteOn();
+                }
             }
         };
 
-        // CHATGPT AYUDAME
         window.addEventListener("keydown", handleKeyDownPlaySound);
 
         return () => {
             window.removeEventListener("keydown", handleKeyDownPlaySound);
         };
-    }, [keyfromkeyboard]);
+    }, [keyfromkeyboard, modRope]);
 
-
+    // Si coloco modRope reproduce la nota 2 veces y no funciona el modo OFF
+    // Si coloco typeAssignKeys no reconoce la nota en modo OFF a menos de que cambie el modo de teclado y solamente lo aplica a las cuerdas que estaban en modo OFF antes de cambiar de modo de teclado, 
 
     return (
         <>
             <button
                 type="button"
-                onClick={playSound}
+                onClick={modRope === "ON" ? playSoundNoteOn : playSoundNoteOff}
             // onKeyDown={handleKeyDownPlaySound}
             >
-                {/*Muestra la tecla asignada a la nota si esta definido*/}
                 Play {rope} - {chord} / {id} / {keyfromkeyboard == undefined ? "" : `/ Tecla: ${keyfromkeyboard}`}
             </button>
         </>
@@ -85,7 +90,8 @@ ChordView.propTypes = {
     id: PropType.number,
     chord: PropType.number,
     file: PropType.string,
-    handleNotePlayed: PropType.func,
+    handleRopeOffNotePlayed: PropType.func,
+    handleRopeOnNotePlayed: PropType.func,
     rope: PropType.number,
     volumenRope: PropType.number,
     modRope: PropType.string,

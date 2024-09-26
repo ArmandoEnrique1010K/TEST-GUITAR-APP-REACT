@@ -2,7 +2,6 @@ import { useRef, useState } from "react"
 import { NeckView } from "../components/NeckView"
 import { useEffect } from "react";
 import { ControlsView } from "../components/ControlsView";
-// import { getKeyboard } from "../services/getKeyboard";
 import { getDynamicFretboardSimulation } from "../services/getDynamicFretboardSimulation";
 
 export const GuitarPage = () => {
@@ -13,134 +12,157 @@ export const GuitarPage = () => {
     // Estado para el mástil de la guitarra, 
     const [neck, setNeck] = useState([]);
 
-    // Estado para el teclado
-    // const [keyboard, setKeyboard] = useState([]);
-
-    // Estado para almacenar la nota anterior reproducida
-    const [previousNote, setpreviousNote] = useState({
+    // Estado para almacenar la nota reproducida en una cuerda en modo OFF
+    const [noteInRopeOff, setNoteInRopeOff] = useState({
         rope: null,
         chord: null,
     })
 
-    // ESTADO PARA ALMACENAR LA NOTA ANTERIOR EN EL MODO DE CUERDA
-    const [modRopePreviousNote, setModRopePreviousNote] = useState({
+    // Estado para almacenar la nota reproducida en una cuerda en modo ON
+    const [noteInRopeOn, setNoteInRopeOn] = useState({
         rope: null,
         chord: null,
     })
     // Referencia al elemento de audio de la nota previamente reproducida
-    const previousAudioRef = useRef(null);
-    const modRopePreviousAudioRef = useRef(null);
+    // const previousAudioRef = useRef(null);
+    // const modRopePreviousAudioRef = useRef(null);
+    const noteOffAudioRef = useRef(null);
+    const noteOnAudioRef = useRef(null);
+
+    // Estado para el tipo de asignación de teclas por cada nota de la guitarra
+    const [typeAssignKeys, setTypeAssignKeys] = useState("");
+
+
+    // Función para establecer las teclas por cada nota de la guitarra
+    const onTypeAssignKeys = (typeAssignKeys) => {
+        setTypeAssignKeys(typeAssignKeys);
+        onPanelChange(`Se ha configurado las teclas en modo ${typeAssignKeys}, asegurate de desactivar la tecla MAYUS`)
+        switch (typeAssignKeys) {
+            // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA (SE PUEDE ELIMINAR, PERO EN OTRA SITUACIÓN PUEDE QUE SEA NECESARIO)
+            // LOS SIGUIENTES 6 REPRESENTAN EL ORDEN DE LAS FILAS DEL TECLADO, LOS VALORS 5 Y 6 SON FILAS NULAS, UNDEFINED
+            // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
+            case "first":
+                // COMPORTAMIENTO POR DEFECTO
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
+                break;
+            case "last":
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
+                break
+            case "middle":
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
+                break
+            case "alternate":
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
+                break;
+        }
+    }
+    // Establecer un mensaje de configuracion en el panel
+    const onPanelChange = (message) => {
+        setPanel(message);
+    };
+
+
+
+    // Función para manejar la reproducción de una nota y detener la anterior si es necesario
+    const handleRopeOffNotePlayed = async (currentNote, currentAudioRef) => {
+
+        //await Tone.start();
+        // if (statusModRope === "OFF") {
+        // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
+        if (noteInRopeOff.rope === currentNote.rope && noteOffAudioRef.current) {
+            noteOffAudioRef.current.stop();
+            noteOffAudioRef.current.seek(0);
+        }
+
+        // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
+        if (noteInRopeOff.rope === currentNote.rope && noteInRopeOff.chord === currentNote.chord) {
+            noteOffAudioRef.current.stop();
+        }
+
+        noteOffAudioRef.current = currentAudioRef.current;
+        // previousNote.current = currentNote;  // Actualizar la referencia inmediata
+        setNoteInRopeOff(currentNote);
+        // console.log(`La nota en modo OFF fue ${noteInRopeOff.rope} : ${noteInRopeOff.chord}`);
+        // console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
+        if (currentNote.rope !== null && currentNote.chord !== null) {
+            console.log(`La nota en modo OFF fue ${currentNote.rope} : ${currentNote.chord}`);
+        } else {
+            console.log("Error: nota en modo OFF fue null");
+        }
+
+    }
+
+    // if (statusModRope === "ON") {
+    //     // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
+    //     if (noteInRopeOff.rope === currentNote.rope && noteInRopeOff.chord === currentNote.chord) {
+    //         noteOffAudioRef.current.stop();
+    //     }
+
+    //     // Silenciar la nota anterior solo si está en una cuerda diferente
+    //     if (noteInRopeOn.rope !== currentNote.rope && noteOnAudioRef.current) {
+    //         noteOnAudioRef.current.stop();
+    //         noteOnAudioRef.current.seek(0);
+    //     }
+
+    //     // Si la nota es la misma, reinicia la reproducción
+    //     if (noteInRopeOn.rope === currentNote.rope && noteInRopeOn.chord === currentNote.chord) {
+    //         noteOnAudioRef.current.stop();
+    //     }
+
+    //     noteOnAudioRef.current = currentAudioRef.current;
+    //     // modRopePreviousNote.current = modRopeCurrentNote;  // Actualizar la referencia inmediata
+    //     setNoteInRopeOn(currentNote);
+    // }
+
+    // Imprimir la información sobre la nota anterior y la actual
+
+    const handleRopeOnNotePlayed = async (currentNote, currentAudioRef) => {
+        //await Tone.start();
+        // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
+        if (noteInRopeOff.rope === currentNote.rope && noteInRopeOff.chord === currentNote.chord) {
+            noteOffAudioRef.current.stop();
+        }
+
+        // Silenciar la nota anterior solo si está en una cuerda diferente
+        if (noteInRopeOn.rope !== currentNote.rope && noteOnAudioRef.current) {
+            noteOnAudioRef.current.stop();
+            noteOnAudioRef.current.seek(0);
+        }
+
+        // Si la nota es la misma, reinicia la reproducción
+        if (noteInRopeOn.rope === currentNote.rope && noteInRopeOn.chord === currentNote.chord) {
+            noteOnAudioRef.current.stop();
+        }
+
+        noteOnAudioRef.current = currentAudioRef.current;
+        // modRopePreviousNote.current = modRopeCurrentNote;  // Actualizar la referencia inmediata
+        setNoteInRopeOn(currentNote);
+        // console.log(`La nota en modo ON fue ${noteInRopeOn.rope} : ${noteInRopeOn.chord}`);
+        // console.log(`La nota reprocida fue: ${currentNote.rope} : ${currentNote.chord}`);
+        if (currentNote.rope !== null && currentNote.chord !== null) {
+            console.log(`La nota en modo ON fue ${currentNote.rope} : ${currentNote.chord}`);
+        } else {
+            console.log("Error: nota en modo ON fue null");
+        }
+
+    }
+
 
     // Cargar los datos del mástil de la guitarra cuando la página se monta
     useEffect(() => {
         setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
     }, [])
 
-    // Función para manejar la reproducción de una nota y detener la anterior si es necesario
-    const handleNotePlayed = (statusModRope, currentNote, modRopeCurrentNote, currentAudioRef) => {
-        if (statusModRope == "OFF") {
-            // Si la cuerda de la nota anterior es la misma que la de la nota actual, detener la reproducción de la anterior
-            if (previousNote.rope === currentNote.rope && previousAudioRef.current) {
-                previousAudioRef.current.stop();
-                previousAudioRef.current.seek(0);
-            }
-
-            // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
-            if (previousNote.rope === currentNote.rope && previousNote.chord === currentNote.chord) {
-                previousAudioRef.current.stop();
-            }
-
-            previousAudioRef.current = currentAudioRef.current;
-            setpreviousNote(currentNote);
-
-        }
-
-        if (statusModRope == "ON") {
-            // Si la cuerda y el acorde de la nota anterior son los mismos que los de la nota actual, reiniciar la reproducción de la nota actual
-            if (previousNote.rope === currentNote.rope && previousNote.chord === currentNote.chord) {
-                previousAudioRef.current.stop();
-            }
-
-            // Silenciar la nota anterior en modo PREV solo si está en una cuerda diferente
-            if (modRopePreviousNote.rope !== modRopeCurrentNote.rope && modRopePreviousAudioRef.current) {
-                modRopePreviousAudioRef.current.stop();
-                modRopePreviousAudioRef.current.seek(0);
-            }
-
-            // Si la nota es la misma, reinicia la reproducción
-            if (modRopePreviousNote.rope === modRopeCurrentNote.rope && modRopePreviousNote.chord === modRopeCurrentNote.chord) {
-                modRopePreviousAudioRef.current.stop();
-            }
-
-            modRopePreviousAudioRef.current = currentAudioRef.current;
-            setModRopePreviousNote(modRopeCurrentNote);
-        }
-
-        // Imprimir la información sobre la nota anterior y la actual
-        console.log(`La nota anterior fue ${previousNote.rope} : ${previousNote.chord}`);
-        console.log(`La nota actual es: ${currentNote.rope} : ${currentNote.chord}`);
-    }
-
-    const onPanelChange = (message) => {
-        setPanel(message);
-    };
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setPanel("...")
-    //     }, 5000)
-    // }, [panel])
-
-    useEffect(() => {
-
-        console.log("Se modifico la nota anterior");
-
-    }, [previousNote])
-
-    // CARGAR LAS TECLAS ASIGNADAS
-    // useEffect(() => {
-    //     setKeyboard(getKeyboard);
-    // }, [])
-
-
-    const [typeAssignKeys, setTypeAssignKeys] = useState("first");
-
-    const onTypeAssignKeys = (value) => {
-        setTypeAssignKeys(value);
-        onPanelChange(`Se ha configurado las teclas en modo ${value}`)
-        switch (value) {
-            // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA
-            // LOS SIGUIENTES 6 REPRESENTAN EL ORDEN DE LAS FILAS DEL TECLADO, LOS VALORS 5 Y 6 SON FILAS NULAS, UNDEFINED
-            // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
-            case "first":
-                // COMPORTAMIENTO POR DEFECTO
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0))
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
-                break;
-            case "last":
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
-                break
-            case "middle":
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
-                break
-            case "alternate":
-                //console.log(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
-                break;
-        }
-    }
-
 
     return (
         <>
             <NeckView neck={neck}
-                // keyboard={keyboard} 
-                handleNotePlayed={handleNotePlayed}
+                // handleNotePlayed={handleNotePlayed}
+                handleRopeOffNotePlayed={handleRopeOffNotePlayed}
+                handleRopeOnNotePlayed={handleRopeOnNotePlayed}
                 onPanelChange={onPanelChange}
-                getDynamicFretboardSimulation={getDynamicFretboardSimulation}
-            // handleKeyDownPlaySound={handleKeyDownPlaySound}
-            // keyfromkeyboard={keyfromkeyboard}
+                typeAssignKeys={typeAssignKeys}
+
             />
             <div>
                 {panel}

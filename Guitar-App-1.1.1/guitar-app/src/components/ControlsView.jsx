@@ -1,3 +1,5 @@
+import PropType from "prop-types";
+
 export const ControlsView = ({ typeAssignKeys, onTypeAssignKeys }) => {
 
     return (
@@ -12,4 +14,8 @@ export const ControlsView = ({ typeAssignKeys, onTypeAssignKeys }) => {
             </div>
         </>
     )
+}
+ControlsView.propTypes = {
+    typeAssignKeys: PropType.string,
+    onTypeAssignKeys: PropType.func,
 }

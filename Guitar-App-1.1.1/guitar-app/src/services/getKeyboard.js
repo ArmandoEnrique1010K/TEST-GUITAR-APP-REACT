@@ -1,6 +1,6 @@
-import { keyboard } from "../data/keyboard";
+// import { keyboard } from "../data/keyboard";
 
-// NO SIRVE ????
-export const getKeyboard = () => {
-  return keyboard;
-};
+// // NO SIRVE ????
+// export const getKeyboard = () => {
+//   return keyboard;
+// };
