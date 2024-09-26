@@ -36,7 +36,7 @@ export const GuitarPage = () => {
     // Función para establecer las teclas por cada nota de la guitarra
     const onTypeAssignKeys = (typeAssignKeys) => {
         setTypeAssignKeys(typeAssignKeys);
-        onPanelChange(`Se ha configurado las teclas en modo ${typeAssignKeys}`)
+        onPanelChange(`Se ha configurado las teclas en modo ${typeAssignKeys}, asegurate de desactivar la tecla MAYUS`)
         switch (typeAssignKeys) {
             // LOS PRIMEROS 6 ARGUMENTOS REPRESENTAN LAS CUERDAS DE LA GUITARRA (SE PUEDE ELIMINAR, PERO EN OTRA SITUACIÓN PUEDE QUE SEA NECESARIO)
             // LOS SIGUIENTES 6 REPRESENTAN EL ORDEN DE LAS FILAS DEL TECLADO, LOS VALORS 5 Y 6 SON FILAS NULAS, UNDEFINED

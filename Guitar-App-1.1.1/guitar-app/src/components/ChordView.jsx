@@ -48,8 +48,8 @@ export const ChordView = ({ id, chord, file, rope, handleRopeOffNotePlayed, hand
 
     }
 
-    // CHATGPT AYUDAME
 
+    // CHATGPT AYUDAME
 
     useEffect(() => {
         const handleKeyDownPlaySound = (event) => {
@@ -68,9 +68,10 @@ export const ChordView = ({ id, chord, file, rope, handleRopeOffNotePlayed, hand
         return () => {
             window.removeEventListener("keydown", handleKeyDownPlaySound);
         };
-    }, [keyfromkeyboard, typeAssignKeys]);
+    }, [keyfromkeyboard, modRope]);
 
-
+    // Si coloco modRope reproduce la nota 2 veces y no funciona el modo OFF
+    // Si coloco typeAssignKeys no reconoce la nota en modo OFF a menos de que cambie el modo de teclado y solamente lo aplica a las cuerdas que estaban en modo OFF antes de cambiar de modo de teclado, 
 
     return (
         <>
