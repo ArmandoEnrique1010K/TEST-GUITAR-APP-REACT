@@ -22,6 +22,11 @@ export const ChordView = ({ id, chord, file, rope, handleRopeOffNotePlayed, hand
     }), [audioPath, volumenRope];
 
 
+    // if (modRope === "ON") {
+    //     setRopeStatus("ON")
+    // } else if (modRope === "OFF") {
+    //     setRopeStatus("OFF")
+    // }
     // Función para reproducir sonido
     const playSoundNoteOn = () => {
         if (audioRef.current) {

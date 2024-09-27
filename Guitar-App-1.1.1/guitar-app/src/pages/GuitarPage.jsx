@@ -30,7 +30,7 @@ export const GuitarPage = () => {
     const noteOnAudioRef = useRef(null);
 
     // Estado para el tipo de asignación de teclas por cada nota de la guitarra
-    const [typeAssignKeys, setTypeAssignKeys] = useState("");
+    const [typeAssignKeys, setTypeAssignKeys] = useState("first");
 
 
     // Función para establecer las teclas por cada nota de la guitarra
