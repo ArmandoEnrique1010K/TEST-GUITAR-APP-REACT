@@ -25,3 +25,7 @@ BUGS:
 - Al tocar una cuerda con el teclado del PC o Laptop, asegurate de desactivar la tecla MAYUS
 
 - Al intentar tocar una cuerda con el teclado en modo OFF, no va a funcionar, trata de tocar una cuerda diferente y luego volver a pulsar el boton OFF para activar el modo ON y luego pulsalo para activar el modo OFF, solamente asi funcionara.
+
+[next.js - range slider with reactjs - value changing but slider not moving - Stack Overflow](https://stackoverflow.com/questions/65342133/range-slider-with-reactjs-value-changing-but-slider-not-moving)
+
+[How to use setInterval() method inside React components ? - GeeksforGeeks](https://www.geeksforgeeks.org/how-to-use-setinterval-method-inside-react-components/)

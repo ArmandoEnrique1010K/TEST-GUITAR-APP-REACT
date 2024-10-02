@@ -36,6 +36,12 @@ export const GuitarPage = () => {
     // Estado para almacenar la primera fila de notas de la guitarra, al que se asignara los controles
     const [firstRow, setFirstRow] = useState(0);
 
+    // Estado para almacenar el TEMPO y la VELOCIDAD de reproducción o el tipo de nota:
+    // count no se va a mostrar en la pagina web
+    const [count, setCount] = useState(0);
+    const [tempo, setTempo] = useState(60);
+    const [speed, setSpeed] = useState(1);
+
     // Función para establecer las teclas por cada nota de la guitarra
     const onTypeAssignKeys = (typeAssignKeys) => {
         setTypeAssignKeys(typeAssignKeys);
@@ -69,9 +75,9 @@ export const GuitarPage = () => {
         } else if (typeAssignKeys === "last") {
             setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, +value));
         } else if (typeAssignKeys === "middle") {
-            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, +value));
+            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, +value));
         } else if (typeAssignKeys === "alternate") {
-            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, +value));
+            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, +value));
         }
     }
 
@@ -173,6 +179,15 @@ export const GuitarPage = () => {
     }, [])
 
 
+    // REPRODUCCIÓN AUTOMATICA
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCount(count + 1)
+        }, 1000)
+        return () => clearInterval(interval);
+    }, [count]);
+
+
     return (
         <>
             <NeckView neck={neck}
@@ -186,7 +201,13 @@ export const GuitarPage = () => {
             <div>
                 {panel}
             </div>
-            <ControlsView typeAssignKeys={typeAssignKeys} onTypeAssignKeys={onTypeAssignKeys} onFirstRow={onFirstRow} firstRow={firstRow} />
+            <h1>{count}</h1>
+            <ControlsView
+                typeAssignKeys={typeAssignKeys}
+                onTypeAssignKeys={onTypeAssignKeys}
+                onFirstRow={onFirstRow}
+                firstRow={firstRow}
+            />
         </>
     )
 }

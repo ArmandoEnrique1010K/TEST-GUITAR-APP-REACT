@@ -16,6 +16,14 @@ export const ControlsView = ({ typeAssignKeys, onTypeAssignKeys, onFirstRow, fir
                 <h3>Empezar por la fila {firstRow}</h3>
                 <input type="range" min={0} max={12} step={1} onChange={onFirstRow} value={firstRow}></input>
             </div>
+            <div>
+                <h3>Reproducir continuamente una nota</h3>
+                TEMPO:
+                <input type="number" min={30} max={300}></input>
+                <br></br>
+                VELOCIDAD:
+                <input type="number" min={1} max={10}></input>
+            </div>
         </>
     )
 }
