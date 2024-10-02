@@ -33,6 +33,9 @@ export const GuitarPage = () => {
     const [typeAssignKeys, setTypeAssignKeys] = useState("first");
 
 
+    // Estado para almacenar la primera fila de notas de la guitarra, al que se asignara los controles
+    const [firstRow, setFirstRow] = useState(0);
+
     // Función para establecer las teclas por cada nota de la guitarra
     const onTypeAssignKeys = (typeAssignKeys) => {
         setTypeAssignKeys(typeAssignKeys);
@@ -43,19 +46,35 @@ export const GuitarPage = () => {
             // EL ULTIMO ARGUMENTO ES DONDE VA A COMENZAR A DEFINIR LAS TECLAS
             case "first":
                 // COMPORTAMIENTO POR DEFECTO
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, 0));
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, firstRow));
                 break;
             case "last":
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, 0));
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, firstRow));
                 break
             case "middle":
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, 0));
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 0, 1, 2, 3, 5, firstRow));
                 break
             case "alternate":
-                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, 0));
+                setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 4, 5, 2, 3, firstRow));
                 break;
         }
     }
+
+    // Función para establecer la fila de donde comenzara a asignarse las teclas
+    const onFirstRow = ({ target: { value } }) => {
+        setFirstRow(+value);
+        onPanelChange(`Se ha asginado la fila de teclas a partir de la fila ${+value}`)
+        if (typeAssignKeys === "first") {
+            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 0, 1, 2, 3, 4, 5, +value));
+        } else if (typeAssignKeys === "last") {
+            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, +value));
+        } else if (typeAssignKeys === "middle") {
+            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, +value));
+        } else if (typeAssignKeys === "alternate") {
+            setNeck(getDynamicFretboardSimulation(1, 2, 3, 4, 5, 6, 4, 5, 0, 1, 2, 3, +value));
+        }
+    }
+
     // Establecer un mensaje de configuracion en el panel
     const onPanelChange = (message) => {
         setPanel(message);
@@ -167,7 +186,7 @@ export const GuitarPage = () => {
             <div>
                 {panel}
             </div>
-            <ControlsView typeAssignKeys={typeAssignKeys} onTypeAssignKeys={onTypeAssignKeys} />
+            <ControlsView typeAssignKeys={typeAssignKeys} onTypeAssignKeys={onTypeAssignKeys} onFirstRow={onFirstRow} firstRow={firstRow} />
         </>
     )
 }

@@ -1,6 +1,6 @@
 import PropType from "prop-types";
 
-export const ControlsView = ({ typeAssignKeys, onTypeAssignKeys }) => {
+export const ControlsView = ({ typeAssignKeys, onTypeAssignKeys, onFirstRow, firstRow }) => {
 
     return (
         <>
@@ -11,6 +11,10 @@ export const ControlsView = ({ typeAssignKeys, onTypeAssignKeys }) => {
                 <button onClick={() => onTypeAssignKeys("last")}>LAST</button>
                 <button onClick={() => onTypeAssignKeys("middle")}>MIDDLE</button>
                 <button onClick={() => onTypeAssignKeys("alternate")}>ALTERNATE</button>
+            </div>
+            <div>
+                <h3>Empezar por la fila {firstRow}</h3>
+                <input type="range" min={0} max={12} step={1} onChange={onFirstRow} value={firstRow}></input>
             </div>
         </>
     )

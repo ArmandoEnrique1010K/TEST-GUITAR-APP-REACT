@@ -57,24 +57,44 @@ export const ChordView = ({ id, chord, file, rope, handleRopeOffNotePlayed, hand
     // CHATGPT AYUDAME
 
     useEffect(() => {
-        const handleKeyDownPlaySound = (event) => {
-            if (event.key === keyfromkeyboard) {
-                console.log(`Tecla ${keyfromkeyboard} presionada`);
-                if (modRope === "OFF") {
-                    playSoundNoteOff();
-                } else {
+        if (modRope === "ON") {
+            const handleKeyDownPlaySound = (event) => {
+                if (event.key === keyfromkeyboard) {
+                    console.log(`Tecla ${keyfromkeyboard} presionada`);
                     playSoundNoteOn();
                 }
-            }
-        };
 
-        window.addEventListener("keydown", handleKeyDownPlaySound);
+            };
+            window.addEventListener("keydown", handleKeyDownPlaySound);
 
-        return () => {
-            window.removeEventListener("keydown", handleKeyDownPlaySound);
-        };
+            return () => {
+                window.removeEventListener("keydown", handleKeyDownPlaySound);
+            };
+
+        } else {
+            const handleKeyDownPlaySound = (event) => {
+                if (event.key === keyfromkeyboard) {
+                    console.log(`Tecla ${keyfromkeyboard} presionada`);
+                    playSoundNoteOff();
+                }
+
+            };
+            window.addEventListener("keydown", handleKeyDownPlaySound);
+
+            return () => {
+                window.removeEventListener("keydown", handleKeyDownPlaySound);
+            };
+
+        }
+
+        // window.addEventListener("keydown", handleKeyDownPlaySound);
+
+        // return () => {
+        //     window.removeEventListener("keydown", handleKeyDownPlaySound);
+        // };
     }, [keyfromkeyboard, modRope]);
 
+    // OMITIR ESO, SI FUNCIONA
     // Si coloco modRope reproduce la nota 2 veces y no funciona el modo OFF
     // Si coloco typeAssignKeys no reconoce la nota en modo OFF a menos de que cambie el modo de teclado y solamente lo aplica a las cuerdas que estaban en modo OFF antes de cambiar de modo de teclado, 
 
