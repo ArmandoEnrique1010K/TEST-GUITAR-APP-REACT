@@ -29,7 +29,3 @@ https://tonejs.github.io/
 https://libreriasjs.com/libreria-javascript-crear-musica-electronica-tonejs/
 
 ## DIFICULTADES
-
-
-
-
